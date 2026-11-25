@@ -72,6 +72,36 @@ function animate(){requestAnimationFrame(animate);let dt=Math.min(clock.getDelta
 let fwd=new THREE.Vector3();camera.getWorldDirection(fwd);fwd.y=0;fwd.normalize();let right=new THREE.Vector3().crossVectors(fwd,new THREE.Vector3(0,1,0)).normalize();let mx=move.x+(keys.d||keys.arrowright?1:0)-(keys.a||keys.arrowleft?1:0),mz=move.z+(keys.s||keys.arrowdown?1:0)-(keys.w||keys.arrowup?1:0);if(mx||mz){let dir=right.multiplyScalar(mx).add(fwd.multiplyScalar(-mz)).normalize();player.position.addScaledVector(dir,dt*3.2);player.position.x=THREE.MathUtils.clamp(player.position.x,-7.5,7.5);player.position.z=THREE.MathUtils.clamp(player.position.z,-7.5,7.5);player.rotation.y=Math.atan2(dir.x,dir.z);}if(walkTarget){let d=walkTarget.clone().sub(player.position);d.y=0;if(d.length()<.18)walkTarget=null;else{d.normalize();player.position.addScaledVector(d,dt*3);player.rotation.y=Math.atan2(d.x,d.z);}}
 if(nurseBusy&&nurse.userData.target){let d=nurse.userData.target.clone().sub(nurse.position);d.y=0;if(d.length()>.3){d.normalize();nurse.position.addScaledVector(d,dt*1.8);nurse.rotation.y=Math.atan2(d.x,d.z);}else{nurse.userData.target=null;setTimeout(()=>{if(!nurseBusy)return;let t=nurse.userData.task;if(t==='oxygen'){exam.oxygenGiven=true;vital=Math.min(98,vital+4);log('護理師回報：已協助氧氣支持，監測狀況略有改善。');}else if(t==='senior'){log('上級醫師到床邊，與你一起確認病人狀況。');}else{exam.monitor=true;log('護理師回報：已完成監測，病人狀況仍需追蹤。');}nurseBusy=false;nurse.userData.target=new THREE.Vector3(-5,0,-4.6);$('phase').textContent='收到護理師回報｜繼續追蹤';setTools(['觀察','聽診器','脈搏','血氧夾','病歷','下醫囑','請護理師協助','氧氣面罩']);},2500);}}
 camera.position.lerp(new THREE.Vector3(player.position.x+7,player.position.y+8,player.position.z+9),.045);camera.lookAt(player.position.x,0.6,player.position.z);renderer.render(scene,camera)}
+
+let edStep=0,edDone={};
+const edFlow=[
+['護理師向醫師報告','陳先生，58歲，胸悶、喘約半小時。檢傷時清醒可對答，生命徵象已量測，已分派至2號床。','聽取報告'],
+['醫師床邊評估','先觀察病人意識、呼吸與外觀，再查看監測器；若病人惡化，先處理危急狀況。','觀察病人','查看監測器'],
+['問診與重點檢查','確認症狀開始時間、是否持續、伴隨症狀、病史、用藥與過敏史，再完成床邊檢查。','詢問病史','聽診器','確認脈搏'],
+['病歷與醫囑','記錄已取得的資訊，安排心電圖。開立醫囑不代表檢查已完成。','存檔病歷','安排心電圖'],
+['護理師執行與回報','護理師確認醫囑、執行檢查並回報；你仍需留意病人狀況。','查看進度','接收護理師回報'],
+['醫師重新評估','回到床邊確認症狀、生命徵象與檢查結果，再決定後續處置。','床邊複評','查看結果'],
+['決定去向','依整體評估決定返家、留觀或住院，並完成交代與紀錄。','返家','急診留觀','住院']
+];
+function edSet(n){edStep=n;let s=edFlow[n];$('phase').textContent=s[0];$('prompt').textContent=s[0];$('detail').textContent=s[1];$('tools').innerHTML='';s.slice(2).forEach(t=>{let b=document.createElement('button');b.className='tool';b.textContent=t;b.onclick=()=>edAction(t);$('tools').append(b)});}
+function startGame(){if(started)return;started=true;stage=1;patientState='assessment';vital=92;log('護理師通知：陳先生到院，已完成檢傷並分派至2號床。');edSet(0);}
+function edAction(t){
+ const modal=(title,body,button,fn)=>showModal(title,'<p>'+body+'</p>',[[button,fn]]);
+ if(t==='聽取報告'){modal('護理師向醫師報告','陳先生，58歲，胸悶、喘約半小時。檢傷時清醒可對答，生命徵象已量測；心電圖尚未完成。','收到，前往床邊',()=>{log('醫師接收護理師報告。');edSet(1)});return;}
+ if(t==='觀察病人'||t==='查看監測器'||t==='詢問病史'||t==='聽診器'||t==='確認脈搏'||t==='床邊複評'){let key=t;modal(t,'請在床邊完成此項評估。完成後記錄結果，並依病人反應決定下一步。','完成評估',()=>{edDone[t]=true;log('完成：'+t);if(edStep===1&&edDone['觀察病人']&&edDone['查看監測器'])edSet(2);else if(edStep===2&&edDone['詢問病史']&&edDone['聽診器']&&edDone['確認脈搏'])edSet(3);else if(edStep===5&&edDone['床邊複評']&&edDone['查看結果'])edSet(6);});return;}
+ if(t==='存檔病歷'){modal('病歷記錄','將目前已取得的主訴、問診與檢查發現存入病歷。','存檔',()=>{edDone.chart=true;log('醫師完成病歷記錄。');edSet(3);});return;}
+ if(t==='安排心電圖'){modal('醫囑：心電圖','你已安排心電圖。護理師需確認並協助執行，稍後再回報結果。','送出醫囑',()=>{edDone.order=true;log('醫師開立心電圖醫囑。');edSet(4);});return;}
+ if(t==='查看進度'){say(edDone.nurse?'心電圖已完成':'心電圖等待護理師執行');return;}
+ if(t==='接收護理師回報'){modal('護理師回報','醫師，心電圖已完成，結果已送達。病人目前仍有胸悶，請重新評估。','收到，回床邊',()=>{edDone.nurse=true;edSet(5)});return;}
+ if(t==='查看結果'){modal('檢查結果','心電圖結果已回報。請與病人症狀、生命徵象及床邊評估一併判斷。','已查看',()=>{edDone.result=true;if(edDone['床邊複評'])edSet(6)});return;}
+ if(['返家','急診留觀','住院'].includes(t)){modal('完成急診評估','你選擇'+t+'。完成必要交代與紀錄後，病例結束。','確認去向',()=>{paused=true;log('病例完成：'+t);showModal('病例完成','已完成護理師報告、醫師評估、病歷、醫囑、護理師回報、複評與去向決定。',[['重新體驗',()=>location.reload()]]);});}
+}
+function setTools(a){if(started&&edFlow){edSet(edStep);return;}$('tools').innerHTML='';a.forEach(t=>{let b=document.createElement('button');b.className='tool';b.textContent=t;b.onclick=()=>edAction(t);$('tools').append(b)});}
+function doExam(part){say('請依目前病例步驟選擇評估項目');}
+function openChart(){edAction('存檔病歷');}
+function openOrders(){edAction('安排心電圖');}
+function nurseTask(){edAction('接收護理師回報');}
+
 init();
 })();
 </script></body></html>
