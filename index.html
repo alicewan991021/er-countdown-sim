@@ -1,97 +1,77 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>急診值班｜判斷與處置試作</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>急診模擬經營｜輪班試作</title>
 <style>
 :root{color-scheme:dark;--bg:#101b25;--panel:#192936;--panel2:#223746;--line:#38515f;--text:#edf5f7;--muted:#a9bdc7;--mint:#9fe1d0;--amber:#f1c879;--red:#ed9696}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,"Noto Sans TC",sans-serif}button,textarea{font:inherit}button{cursor:pointer;touch-action:manipulation}button:focus-visible,textarea:focus-visible{outline:3px solid var(--mint);outline-offset:2px}.app{max-width:1100px;margin:auto;padding:14px}.header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}.eyebrow{font-size:12px;color:var(--mint);letter-spacing:.08em}.title{font-size:clamp(22px,4vw,30px);font-weight:800}.headerRight{display:flex;gap:8px;flex-wrap:wrap}.pill{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 11px;font-size:13px}.layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}.card h2,.card h3{margin:0 0 10px}.sub{color:var(--muted);font-size:13px}.patientTop{display:flex;justify-content:space-between;gap:12px;align-items:start}.status{font-size:12px;border-radius:999px;background:#3a3440;color:#ffd6b1;padding:5px 9px;white-space:nowrap}.complaint{font-size:20px;font-weight:750;margin:12px 0 6px}.vitals{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}.vital{background:#12212c;border:1px solid #304754;border-radius:12px;padding:10px}.vital span{display:block;color:var(--muted);font-size:12px}.vital b{font-size:19px}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.tab,.action{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:10px 12px}.tab[aria-pressed=true]{background:var(--mint);color:#12312f;border-color:var(--mint);font-weight:750}.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.action{min-height:58px;text-align:left;display:flex;flex-direction:column;justify-content:center;gap:2px}.action b{font-size:14px}.action small{color:var(--muted);font-size:12px}.action:disabled{opacity:.35;cursor:not-allowed}.primary{background:var(--mint);color:#14332f;border-color:var(--mint);font-weight:800}.warn{border-color:#775d39}.feedback{margin-top:12px;padding:12px;border-radius:12px;background:#12212c;color:#d7e8ec;min-height:64px}.feedback strong{color:var(--mint)}.feedList{display:grid;gap:8px;max-height:340px;overflow:auto}.event{border-left:3px solid #527d86;padding:7px 10px;background:#14232d;border-radius:0 8px 8px 0;font-size:13px}.event time{display:block;color:var(--muted);font-size:11px}.chart{width:100%;min-height:140px;background:#12212c;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px;resize:vertical}.section{margin-top:12px}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1}.check{display:flex;gap:8px;align-items:flex-start;color:var(--muted);font-size:12px;margin-top:10px}.end{margin-top:12px}.banner{padding:10px 12px;background:#302b21;border:1px solid #6b5734;border-radius:10px;color:#f3dba7;font-size:13px;margin-bottom:12px}.hidden{display:none!important}.modal{position:fixed;inset:0;background:#071019d9;display:grid;place-items:center;padding:16px;z-index:10}.modalBox{max-width:520px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}.modalBox h2{margin-top:0}.modalBtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.modalBtns button{flex:1}.footer{color:var(--muted);font-size:11px;margin:14px 2px}
-@media(max-width:760px){.layout{grid-template-columns:1fr}.app{padding:10px}.card{padding:13px}.vitals{grid-template-columns:repeat(2,1fr)}.feedList{max-height:220px}.actions{grid-template-columns:repeat(2,minmax(0,1fr))}.header{align-items:flex-start}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,"Noto Sans TC",sans-serif}button,select,textarea{font:inherit}button,select{cursor:pointer}button:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--mint);outline-offset:2px}.app{max-width:1180px;margin:auto;padding:14px}.head,.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:space-between}.head{margin-bottom:12px}.title{font-size:clamp(22px,4vw,30px);font-weight:800}.eyebrow{font-size:12px;color:var(--mint);letter-spacing:.08em}.pill,.btn,select{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:9px 12px}.pill{border-radius:999px;font-size:13px}.btn.primary{background:var(--mint);color:#12312f;border-color:var(--mint);font-weight:800}.btn:disabled{opacity:.35;cursor:not-allowed}.grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(290px,.75fr);gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:15px;min-width:0}.card h2,.card h3{margin:0 0 9px}.muted{color:var(--muted);font-size:13px}.banner{background:#302b21;border:1px solid #6b5734;color:#f3dba7;border-radius:10px;padding:10px;margin-bottom:12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:12px 0}.stat{background:#12212c;border:1px solid #304754;border-radius:10px;padding:9px}.stat span{display:block;color:var(--muted);font-size:12px}.stat b{font-size:19px}.patient{border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;background:#14232d}.patient.active{border-color:var(--mint)}.patient h3{margin:0 0 4px}.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}.actions .btn{text-align:left;min-height:48px}.log{display:grid;gap:7px;max-height:250px;overflow:auto}.event{padding:8px 10px;border-left:3px solid #527d86;background:#14232d;border-radius:0 8px 8px 0;font-size:13px}.event time{display:block;color:var(--muted);font-size:11px}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.tab[aria-pressed=true]{background:var(--mint);color:#12312f}.chart{width:100%;min-height:90px;background:#12212c;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px}.section{margin-top:14px}.notice{padding:10px;background:#12212c;border-radius:10px;margin-top:10px;min-height:44px}.hidden{display:none!important}.tag{display:inline-block;padding:3px 7px;border-radius:999px;background:#3a3440;color:#ffd6b1;font-size:11px}.tag.red{background:#512d31;color:#ffc2c2}.footer{font-size:11px;color:var(--muted);margin:12px 2px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.app{padding:9px}.card{padding:12px}}
 </style>
 </head>
 <body><main class="app">
-<header class="header"><div><div class="eyebrow">急診模擬｜單一病例試作</div><div class="title">急診值班</div></div><div class="headerRight"><span class="pill">遊戲時間 <b id="time">08:00</b></span><span class="pill">病例 <b id="caseNo">ER-001</b></span><button class="pill" id="restart">重新開始</button></div></header>
-<div class="banner">本頁是遊戲流程試作，病例與數值為虛構，不是現實醫療指引。</div>
-<div class="layout">
-<section class="card">
-<div class="patientTop"><div><div class="sub">病人資料</div><h2>陳先生｜58 歲</h2></div><span class="status" id="status">待醫師評估</span></div>
-<div class="complaint">「胸口悶，覺得喘。」</div><div class="sub">護理師已完成檢傷，病人清醒、可對答。請依目前掌握的資訊安排下一步。</div>
-<div class="vitals" id="vitals"></div>
-<h3>目前評估</h3><div class="sub" id="summary">尚未取得醫師評估資料。選擇下方操作，逐步取得資訊。</div>
-<div class="tabs" id="tabs"></div><div class="actions" id="actions"></div>
-<div class="feedback" id="feedback" aria-live="polite"><strong>護理師報告：</strong>病人已分派至 2 號床，等待醫師評估。</div>
-<div class="section"><h3>病例進度</h3><div class="sub" id="progress">已接收病人，尚未完成初步評估。</div></div>
+<header class="head"><div><div class="eyebrow">24 小時急診｜持續經營試作</div><div class="title">急診模擬經營</div></div><div class="row"><span class="pill" id="clock">第 1 週｜週一 08:00</span><button class="btn" id="pause">暫停</button><button class="btn" id="speed">速度 ×1</button></div></header>
+<div class="banner">玩法試作：時間持續推進，急診全天營運；病人由系統分流派診，玩家不能自行挑選病人。病例為虛構遊戲內容，非醫療指引。</div>
+<div class="grid">
+<section class="card"><div class="row"><h2>我的當班工作</h2><span class="tag" id="shiftTag">早班</span></div><div class="muted" id="shiftInfo">你正在值早班。系統依分流狀況派診。</div>
+<div class="stats"><div class="stat"><span>候診人數</span><b id="waiting">0</b></div><div class="stat"><span>急診在院</span><b id="inCare">0</b></div><div class="stat"><span>當班人力</span><b id="staff">6</b></div><div class="stat"><span>本週已接診</span><b id="seen">0</b></div></div>
+<h3>派到我的病人</h3><div id="assigned" class="patient"><div class="muted">目前沒有派診病人。</div></div>
+<div class="tabs" id="tabs"></div><div class="actions" id="actions"></div><div class="notice" id="feedback" aria-live="polite">等待系統派診。</div>
+<div class="section"><h3>我的病歷備註</h3><textarea id="notes" class="chart" placeholder="記錄已取得的資訊與處置（試作）"></textarea><div class="row"><button class="btn primary" id="saveNote">存檔病歷</button><button class="btn" id="finish">完成本次處理</button></div></div>
 </section>
-<aside class="card">
-<h2>病歷紀錄</h2><div class="sub">內容會依你已完成的評估、檢查與處置更新。可補充主觀紀錄。</div>
-<textarea class="chart" id="chart" placeholder="補充病歷備註（選填）" aria-label="病歷備註"></textarea>
-<div class="row section"><button class="action primary" id="saveChart">存檔病歷</button><button class="action" id="viewChart">查看完整病歷</button></div>
-<div class="section"><h3>護理師回報／事件紀錄</h3><div class="feedList" id="feed"></div></div>
-<div class="section"><h3>病例結束</h3><div class="sub">完成評估與必要紀錄後，選擇後續去向。遊戲不會只因選中某個答案就自動判定「正確」。</div><div class="actions end" id="disposition"></div></div>
+<aside class="card"><h2>排班與人力</h2><div class="muted">每週輪班：早班 → 晚班 → 夜班。可以調班、請假或安排臨時代班。</div>
+<div class="section"><label for="shiftSelect">本週班別</label><div class="row"><select id="shiftSelect"><option>早班</option><option>晚班</option><option>夜班</option></select><button class="btn" id="changeShift">調整本週班別</button></div></div>
+<div class="section"><div class="row"><label><input type="checkbox" id="leave"> 本週請假</label><span class="tag" id="leaveState">未請假</span></div><div class="muted">請假後不會派診給你；急診由其他當班人員接手。</div></div>
+<div class="section"><h3>臨時代班</h3><div class="row"><select id="cover"><option value="none">尚未安排</option><option value="senior">資深醫師</option><option value="regular">一般醫師</option><option value="locum">支援醫師</option></select><button class="btn" id="coverBtn">安排代班</button></div><div class="muted" id="coverInfo">代班可補足人力；無代班時請假會降低當班人力。</div></div>
+<div class="section"><h3>急診候診區</h3><div class="muted">僅顯示概況；不可點選或挑選病人。系統依分流優先級自動派診。</div><div id="queue"></div></div>
+<div class="section"><h3>值班事件</h3><div class="log" id="log"></div></div>
 </aside></div>
-<div class="footer">試作目標：按鈕決策、資訊逐步揭露、檢查／醫囑／護理師回報與病歷互相連動。此版本先驗證單一病例流程。</div>
-</main><div class="modal hidden" id="modal" role="dialog" aria-modal="true"><div class="modalBox"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalBtns" id="modalBtns"></div></div></div>
+<div class="footer">目前是第一個可操作骨架：週輪班、請假／代班、系統派診與基本病例處理。此頁尚未做完整醫療內容或真實臨床評分。</div>
+</main>
 <script>
 (()=>{
 const $=id=>document.getElementById(id);
-const state={mins:0,tab:'評估',observed:false,history:false,exam:false,ecgOrdered:false,ecgDone:false,ecgSeen:false,monitorOrdered:false,monitorDone:false,oxygenOrdered:false,oxygenDone:false,chartSaved:false,reeval:false,disposition:'',notes:'',log:[],vitals:{hr:112,bp:'146/92',rr:24,spo2:93},started:true};
-const tabs=['評估','檢查','治療／醫囑','病歷'];
-const tools={
-'評估':[
-['一般觀察','查看意識、呼吸與外觀','observe'],
-['詢問病史','確認症狀經過與相關病史','history'],
-['床邊檢查','完成本次病例的重點檢查','exam']
-],
-'檢查':[
-['安排心電圖','開立檢查醫囑，等待執行與結果','ecg'],
-['安排持續監測','請護理師持續觀察生命徵象','monitor'],
-['查看檢查結果','只顯示已完成並回報的結果','results']
-],
-'治療／醫囑':[
-['安排氧氣支持','提出醫囑，由護理師執行並回報','oxygen'],
-['請護理師回報','查看已送出的醫囑進度','nurse'],
-['重新評估','根據新資訊再次評估病人','reeval']
-],
-'病歷':[
-['存檔病歷','保存目前已取得的資料','chart'],
-['查看完整病歷','檢視已記錄的內容','view']
-]};
-function log(text){state.log.unshift({time:clock(),text});renderFeed();}
-function clock(){let n=8*60+state.mins;return String(Math.floor(n/60)%24).padStart(2,'0')+':'+String(n%60).padStart(2,'0');}
-function advance(n=2){state.mins+=n;$('time').textContent=clock();}
-function say(title,text){$('feedback').innerHTML='<strong>'+title+'：</strong>'+text;}
-function modal(title,body,buttons){$('modalTitle').textContent=title;$('modalBody').textContent=body;$('modalBtns').replaceChildren();buttons.forEach(([label,fn])=>{let b=document.createElement('button');b.className='action primary';b.textContent=label;b.onclick=()=>{$('modal').classList.add('hidden');fn?.()};$('modalBtns').append(b)});$('modal').classList.remove('hidden');}
-function render(){ $('vitals').innerHTML=[['心率',state.vitals.hr,'次／分'],['血壓',state.vitals.bp,'mmHg'],['呼吸',state.vitals.rr,'次／分'],['血氧',state.vitals.spo2,'%']].map(([a,b,c])=>'<div class="vital"><span>'+a+'</span><b>'+b+'</b><span>'+c+'</span></div>').join('');
-$('status').textContent=state.disposition?'病例已結束':state.reeval?'複評完成':state.chartSaved?'已存檔病歷':'待醫師評估';
-$('summary').textContent=state.reeval?'目前已完成初步評估、檢查與複評，請決定後續去向。':state.exam?'病人清醒，主訴胸悶與喘；已取得初步床邊檢查資訊。':state.observed?'病人清醒可對答，呼吸較快，表情不適。': '尚未取得醫師評估資料。選擇下方操作，逐步取得資訊。';
-$('progress').textContent='已完成：'+[['初步觀察',state.observed],['問診',state.history],['床邊檢查',state.exam],['心電圖醫囑',state.ecgOrdered],['心電圖回報',state.ecgDone],['病歷存檔',state.chartSaved],['複評',state.reeval]].filter(x=>x[1]).map(x=>x[0]).join('、')+'。';
-$('tabs').replaceChildren();tabs.forEach(t=>{let b=document.createElement('button');b.className='tab';b.textContent=t;b.setAttribute('aria-pressed',t===state.tab);b.onclick=()=>{state.tab=t;render()};$('tabs').append(b)});
-$('actions').replaceChildren();tools[state.tab].forEach(([name,desc,key])=>{let b=document.createElement('button');b.className='action';b.innerHTML='<b>'+name+'</b><small>'+desc+'</small>';b.disabled=disabled(key);b.onclick=()=>act(key);$('actions').append(b)});
-$('disposition').replaceChildren();['急診留觀','住院','離院'].forEach(d=>{let b=document.createElement('button');b.className='action'+(state.reeval?' primary':'');b.innerHTML='<b>'+d+'</b><small>完成病例去向決定</small>';b.disabled=!state.reeval||!!state.disposition;b.onclick=()=>endCase(d);$('disposition').append(b)});
-$('chart').value=state.notes;
-}
-function disabled(k){if(k==='results')return !state.ecgDone&&!state.monitorDone;if(k==='nurse')return !state.ecgOrdered&&!state.monitorOrdered&&!state.oxygenOrdered;if(k==='reeval')return !(state.ecgSeen||state.monitorDone||state.oxygenDone);if(k==='chart'||k==='view')return false;return !!state.disposition;}
-function act(k){
-switch(k){
-case'observe':state.observed=true;advance();log('醫師完成一般觀察：病人清醒可對答，呼吸較快。');say('觀察結果','病人目前清醒、可對答，呼吸較快。觀察資料已加入病歷。');break;
-case'history':state.history=true;advance();log('完成問診：胸悶與喘約 30 分鐘，仍持續；其餘病史待補。');say('問診結果','病人表示胸悶、喘約半小時，症狀仍持續。這是遊戲中的病例資訊。');break;
-case'exam':if(!state.observed){say('尚缺評估','先完成一般觀察，再進行床邊檢查。');return;}state.exam=true;advance();log('完成床邊檢查：呼吸急促，未見明顯意識改變。');say('床邊檢查','呼吸急促，未見明顯意識改變。');break;
-case'ecg':if(!state.observed||!state.history){say('先完成初步評估','先完成一般觀察與問診，再安排檢查。');return;}state.ecgOrdered=true;advance(1);log('醫師開立心電圖醫囑；等待護理師執行。');say('醫囑已送出','已安排心電圖。護理師將執行並回報；結果尚未取得。');setTimeout(()=>{if(!state.ecgOrdered||state.disposition)return;state.ecgDone=true;advance(3);log('護理師回報：心電圖已完成，結果送達醫師。');say('護理師回報','心電圖已完成，結果已送達。請查看結果並重新評估。');render();},3200);break;
-case'monitor':state.monitorOrdered=true;advance(1);log('醫師安排持續監測。');say('監測已安排','護理師開始持續監測，稍後回報生命徵象。');setTimeout(()=>{if(state.disposition)return;state.monitorDone=true;state.vitals.hr=108;state.vitals.spo2=94;advance(2);log('護理師回報：監測數值已更新，病人仍需追蹤。');say('護理師回報','監測數值已更新；病人仍有不適，請重新評估。');render();},2500);break;
-case'results':if(state.ecgDone){state.ecgSeen=true;log('醫師查看心電圖回報，與症狀及生命徵象一併判讀。');modal('檢查結果｜心電圖','心電圖報告已送達。遊戲不提供真實診斷訓練；請依病例資訊進行後續評估。',[['收到並複評',()=>{state.ecgSeen=true;state.tab='治療／醫囑';render();}]]);}else if(state.monitorDone){modal('監測回報','護理師回報：心率 108 次／分、血氧 94%，病人仍有不適。',[['收到',()=>{}]]);}break;
-case'oxygen':if(!state.observed){say('先評估病人','先確認病人目前狀況，再安排醫囑。');return;}state.oxygenOrdered=true;advance(1);log('醫師提出氧氣支持醫囑，等待護理師執行。');say('醫囑已送出','護理師已收到醫囑，正在執行並觀察反應。');setTimeout(()=>{if(state.disposition)return;state.oxygenDone=true;state.vitals.spo2=Math.min(98,state.vitals.spo2+3);state.vitals.rr=Math.max(18,state.vitals.rr-2);advance(2);log('護理師回報：已執行氧氣支持，血氧與呼吸數值略有改善。');say('護理師回報','已執行氧氣支持；監測數值略有改善，仍需醫師複評。');render();},2600);break;
-case'nurse':modal('護理師工作進度',state.oxygenOrdered&&!state.oxygenDone?'氧氣支持醫囑已送出，尚待執行回報。':state.ecgOrdered&&!state.ecgDone?'心電圖已安排，尚待檢查完成。':state.monitorOrdered&&!state.monitorDone?'持續監測已安排，尚待回報。':'護理師已回報目前已完成的工作。',[['返回',()=>{}]]);break;
-case'reeval':if(!state.ecgSeen&&!state.monitorDone&&!state.oxygenDone){say('仍缺少回報','請先查看已完成的檢查或護理師回報。');return;}state.reeval=true;advance();log('醫師完成複評，確認病人狀況與已回報資料。');say('複評完成','已重新查看病人狀況與回報資料。現在可以決定後續去向。');break;
-case'chart':saveChart();break;
-case'view':viewChart();break;
-}
-render();
-}
-function saveChart(){state.chartSaved=true;state.notes=$('chart').value;advance();log('醫師存檔目前病歷。');say('病歷已存檔','已保存目前取得的資料與備註。未完成的檢查不會被記為已完成。');render();}
-function viewChart(){let lines=['主訴：胸悶、喘。',state.observed?'一般觀察：清醒可對答，呼吸較快。':'一般觀察：尚未完成。',state.history?'問診：胸悶與喘約半小時，症狀仍持續。':'問診：尚未完成。',state.exam?'床邊檢查：呼吸急促，未見明顯意識改變。':'床邊檢查：尚未完成。',state.ecgOrdered?'心電圖：已開立醫囑。'+(state.ecgDone?'已回報。':'尚待回報。'):'心電圖：未安排。',state.monitorDone?'監測回報：數值已更新。':'監測回報：尚無。',state.oxygenDone?'氧氣支持：已執行，數值略有改善。':'氧氣支持：尚未執行。','醫師備註：'+(state.notes||'無')];modal('目前病歷',lines.join('\n'),[['返回',()=>{}]]);}
-function endCase(d){state.disposition=d;advance();log('病例結束：醫師選擇'+d+'。');modal('病例完成','已完成評估、安排檢查／處置、護理師回報、病歷與去向決定。此試作沒有對醫療決策做真實臨床評分。',[['重新體驗',()=>location.reload()]]);render();}
-function renderFeed(){$('feed').innerHTML=state.log.map(e=>'<div class="event"><time>'+e.time+'</time>'+e.text+'</div>').join('');}
-$('saveChart').onclick=saveChart;$('viewChart').onclick=viewChart;$('chart').addEventListener('input',e=>state.notes=e.target.value);$('restart').onclick=()=>location.reload();
-log('護理師報告：陳先生，58歲，胸悶、喘約半小時，已完成檢傷並分派至 2 號床。');render();
+const shifts=['早班','晚班','夜班'];
+const shiftHours={'早班':[8,16],'晚班':[16,0],'夜班':[0,8]};
+const cases=[
+{complaint:'腹痛、噁心',age:34,priority:'一般',hr:94,bp:'128/82',spo2:98,steps:['初步評估','問診','腹部檢查','安排檢查','重新評估','記錄處置']},
+{complaint:'發燒、咳嗽',age:67,priority:'優先',hr:108,bp:'132/84',spo2:94,steps:['初步評估','問診','呼吸評估','安排檢查','重新評估','記錄處置']},
+{complaint:'手腕受傷',age:22,priority:'一般',hr:88,bp:'122/76',spo2:99,steps:['初步評估','問診','肢體檢查','安排影像','重新評估','記錄處置']},
+{complaint:'胸悶、喘',age:58,priority:'緊急',hr:116,bp:'146/92',spo2:92,steps:['初步評估','問診','床邊檢查','安排心電圖','重新評估','記錄處置']}
+];
+let state={day:1,week:1,minute:8*60,paused:false,speed:1,shift:0,leave:false,cover:'none',patients:[],active:null,serial:0,seen:0,log:[],tab:'臨床處理',caseStep:0,notes:'',lastArrival:0};
+const tabs=['臨床處理','病歷／去向'];
+function clock(){let m=state.minute%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
+function stamp(){return '第 '+state.week+' 週｜'+['週一','週二','週三','週四','週五','週六','週日'][(state.day-1)%7]+' '+clock()}
+function shiftNow(){let h=Math.floor((state.minute%1440)/60);if(h>=8&&h<16)return 0;if(h>=16&&h<24)return 1;return 2}
+function onDuty(){return !state.leave&&shiftNow()===state.shift}
+function log(msg){state.log.unshift({t:stamp(),m:msg});state.log=state.log.slice(0,28);renderLog()}
+function note(msg){$('feedback').textContent=msg}
+function newPatient(){state.serial++;let c=cases[(state.serial-1)%cases.length];let p={id:state.serial,name:['林小姐','陳先生','王先生','張先生'][((state.serial-1)%4)],age:c.age,complaint:c.complaint,priority:c.priority,hr:c.hr,bp:c.bp,spo2:c.spo2,steps:c.steps.slice(),step:0,arrived:state.minute,owner:null,done:false};state.patients.push(p);log('新病人到院：'+p.name+'，主訴'+p.complaint+'。已進入系統分流。');dispatch()}
+function dispatch(){if(state.active||!onDuty())return;let p=state.patients.filter(x=>!x.done&&!x.owner).sort((a,b)=>({緊急:0,優先:1,一般:2}[a.priority]-({緊急:0,優先:1,一般:2}[b.priority])||a.arrived-b.arrived)[0];if(p){p.owner='player';state.active=p;state.caseStep=p.step;state.seen++;log('系統派診：'+p.name+'（'+p.priority+'）。');note('系統已派診給你：'+p.name+'。請依序評估並處理。')}}
+function stepAction(action){let p=state.active;if(!p)return;if(action==='記錄處置'){p.step++;state.caseStep=p.step;note('已記錄目前處置；可完成本次處理或繼續追蹤。');log('已記錄'+p.name+'的處置。');render();return}p.step++;state.caseStep=p.step;log('對'+p.name+'完成：'+action+'。');note(action+'已完成，病人狀況與工作進度已更新。');render()}
+function finish(){let p=state.active;if(!p)return;p.done=true;p.owner=null;log('完成本次處理：'+p.name+'已安排後續照護並交接。');state.active=null;state.caseStep=0;state.notes='';$('notes').value='';note('本次處理已完成，系統會依分流派送下一位病人。');dispatch();render()}
+function tick(){if(state.paused)return;state.minute+=state.speed;let h=Math.floor((state.minute%1440)/60);if(state.minute>=1440){state.minute-=1440;state.day++;if((state.day-1)%7===0){state.week++;state.shift=(state.shift+1)%3;state.leave=false;state.cover='none';$('shiftSelect').value=shifts[state.shift];$('leave').checked=false;$('cover').value='none';log('新的一週開始，輪班更新為'+shifts[state.shift]+'。');}}
+if(state.minute%1440===0)log('日期更新。急診持續營運。');
+if(state.minute%180<state.speed&&Math.random()<.8)newPatient();
+if(!state.active&&onDuty())dispatch();
+if(state.active&&state.minute%240<state.speed){state.active.hr=Math.min(140,state.active.hr+2);state.active.spo2=Math.max(88,state.active.spo2-1);log('護理師回報：'+state.active.name+'需要重新查看。')}
+render()}
+function render(){ $('clock').textContent=stamp();$('shiftTag').textContent=shifts[state.shift];$('shiftInfo').textContent=onDuty()?'你正在值'+shifts[state.shift]+'。系統依分流狀況派診。':state.leave?'你本週請假中；其他當班人員接手。':'目前不是你的班別；急診由其他當班人員持續營運。';$('waiting').textContent=state.patients.filter(p=>!p.done&&!p.owner).length;$('inCare').textContent=state.patients.filter(p=>!p.done).length;$('staff').textContent=state.leave?(state.cover==='none'?4:6):6;$('seen').textContent=state.seen;$('leaveState').textContent=state.leave?'已請假':'未請假';
+let p=state.active;$('assigned').innerHTML=p?'<div class="row"><strong>'+p.name+'｜'+p.age+' 歲</strong><span class="tag '+(p.priority==='緊急'?'red':'')+'">'+p.priority+'</span></div><div class="muted">主訴：'+p.complaint+'</div><div class="stats"><div class="stat"><span>心率</span><b>'+p.hr+'</b></div><div class="stat"><span>血壓</span><b>'+p.bp+'</b></div><div class="stat"><span>血氧</span><b>'+p.spo2+'%</b></div><div class="stat"><span>到院後</span><b>'+Math.max(0,Math.floor((state.minute-p.arrived)/60))+' 分</b></div></div><div class="muted">處理進度：'+p.steps.slice(0,p.step).join('、')+'；下一步可執行：'+(p.steps[p.step]||'完成本次處理')+'</div>': '<div class="muted">'+(onDuty()?'目前沒有派診病人，等待系統分配。':'你目前未當班；病人由其他人員接手。')+'</div>';
+$('tabs').replaceChildren();tabs.forEach(t=>{let b=document.createElement('button');b.className='btn tab';b.textContent=t;b.setAttribute('aria-pressed',t===state.tab);b.onclick=()=>{state.tab=t;render()};$('tabs').append(b)});
+$('actions').replaceChildren();if(p&&onDuty()){let acts=state.tab===tabs[0]?[p.steps[p.step]||'完成本次處理','重新評估病人','查看護理師回報']:['存檔病歷','安排後續去向'];acts.forEach(a=>{let b=document.createElement('button');b.className='btn';b.textContent=a;b.onclick=()=>{if(a==='存檔病歷'){log('病歷已存檔：'+p.name+'；備註：'+($('notes').value||'未補充'));note('病歷已存檔。')}else if(a==='安排後續去向'){modalDisposition()}else if(a==='查看護理師回報'){note('護理師回報：目前生命徵象已更新，請結合已取得資訊重新評估。');log('查看護理師回報。')}else stepAction(a)};$('actions').append(b)})}
+$('queue').innerHTML=state.patients.filter(x=>!x.done&&!x.owner).sort((a,b)=>({緊急:0,優先:1,一般:2}[a.priority]-({緊急:0,優先:1,一般:2}[b.priority])||a.arrived-b.arrived).map(p=>'<div class="patient"><div class="row"><strong>'+p.name+'｜'+p.age+' 歲</strong><span class="tag">'+p.priority+'</span></div><div class="muted">'+p.complaint+'｜候診 '+Math.max(0,Math.floor((state.minute-p.arrived)/60))+' 分鐘</div></div>').join('')||'<div class="muted">目前候診區無等待病人。</div>';
+$('pause').textContent=state.paused?'繼續':'暫停';$('speed').textContent='速度 ×'+state.speed}
+function modalDisposition(){let result=prompt('輸入後續去向：留觀／住院／離院／轉院');if(result){log('已記錄後續去向：'+result+'。');note('後續去向已記錄，請完成本次處理。')}}
+function renderLog(){$('log').innerHTML=state.log.map(e=>'<div class="event"><time>'+e.t+'</time>'+e.m+'</div>').join('')}
+$('pause').onclick=()=>{state.paused=!state.paused;render()};$('speed').onclick=()=>{state.speed=state.speed===1?5:state.speed===5?15:1;render()};
+$('changeShift').onclick=()=>{state.shift=shifts.indexOf($('shiftSelect').value);log('本週班別調整為'+shifts[state.shift]+'。');render();dispatch()};
+$('leave').onchange=e=>{state.leave=e.target.checked;log(state.leave?'角色本週請假；由其他當班人員接手。':'角色取消請假。');if(state.leave&&state.active){state.active.owner='staff';state.active=null;note('請假生效，現有病人已交由其他當班人員。')}dispatch();render()};
+$('coverBtn').onclick=()=>{state.cover=$('cover').value;log(state.cover==='none'?'取消臨時代班。':'已安排臨時代班：'+$('cover').selectedOptions[0].text+'。');$('coverInfo').textContent=state.cover==='none'?'目前沒有臨時代班。':'臨時代班已登記，當班人力補足。';render()};
+$('saveNote').onclick=()=>{if(state.active){log('病歷備註已存檔：'+($('notes').value||'未補充'));note('病歷備註已存檔。')}};
+$('finish').onclick=finish;
+log('急診開始營運。角色本週排定早班；系統將自動分流並派診。');newPatient();newPatient();render();
+setInterval(tick,1000);
 })();
 </script></body></html>
