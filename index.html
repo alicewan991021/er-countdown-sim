@@ -26,6 +26,45 @@ aside .heading{margin-top:18px;margin-bottom:9px;padding-bottom:8px;border-botto
 @media(max-width:980px){.layout{grid-template-columns:minmax(0,1.3fr) minmax(260px,.8fr)}.workspace{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.app{padding:10px}.layout{grid-template-columns:1fr}.room{grid-template-columns:1fr}.workspace{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:12px}.brand{font-size:23px}}
 @media(max-width:460px){.top{align-items:flex-start}.top .row{justify-content:flex-start}.workspace{grid-template-columns:1fr}.stationbar button{min-width:calc(50% - 5px)}.room{padding:10px}}
+</style><style id="ward-scene-redesign">
+/* Ward-scene redesign: less admin dashboard, more in-shift environment */
+:root{--bg:#101619;--panel:#192326;--line:#3b4b4d;--ink:#f2eee4;--muted:#a0aaa5;--teal:#d7bd82}
+body{background:#101619;color:var(--ink)}
+button{border-radius:3px;background:#293639;border-color:#536061}
+button:hover{background:#3b4b4d;border-color:var(--teal)}
+.app{max-width:1500px;padding:14px 20px}
+.top{border-bottom-color:#3b484a}
+.top>div:first-child{padding-left:13px;border-left:3px solid var(--teal)}
+.brand{font-size:23px;letter-spacing:.06em}
+.chip{border-radius:3px;background:#1a2528;border-color:#4b5b5d}
+#clock{color:var(--teal)}#pause{background:var(--teal);color:#202522;border-color:var(--teal)}
+.layout{grid-template-columns:minmax(0,1fr) 310px;gap:14px}
+.panel{background:#192326;border:1px solid #3b4b4d;border-radius:4px;padding:13px;box-shadow:0 12px 32px #0002}
+.heading{letter-spacing:.14em;color:#d8d7cb}
+.scene{border-color:#586463;border-radius:3px;background:#1c292c}
+.sceneTop{background:#2b3839;border-color:#596464}
+.room{min-height:285px;grid-template-columns:minmax(0,1fr) 270px;gap:12px;background:linear-gradient(180deg,#3a4846,#293936 42%,#202e30);overflow:hidden}
+.room:before{opacity:.3;background:linear-gradient(90deg,transparent 0 63%,#a5aaa1 63.2%,transparent 63.7%),repeating-linear-gradient(0deg,transparent 0 42px,#9ca9a0 43px,#9ca9a0 44px,transparent 45px);mask-image:linear-gradient(180deg,#000,transparent 80%)}
+.room:after{content:"";position:absolute;left:0;right:0;bottom:0;height:34px;background:repeating-linear-gradient(90deg,#141e20 0 54px,#263538 55px 57px);opacity:.55;pointer-events:none}
+.area{z-index:1;background:#182326dd;border-color:#667370;border-radius:3px}
+.bed{height:145px;gap:20px}.person:after{width:160px;height:52px;border-radius:3px}.person:before{height:60px}
+.vital{border-radius:2px;background:#111a1c;border-color:#4b5b5b;color:#d7dfd8}
+#focus{font-size:18px}#focusText{min-height:64px;color:#c1c9c2}
+.stationbar{gap:0;background:#121b1d;border-color:#3b4b4d;border-radius:3px}
+.stationbar button{background:transparent;border:0;border-right:1px solid #3b4b4d;border-radius:0;color:#aab5b0}
+.stationbar button.on{background:#3b4a46;color:#f4e5bc;box-shadow:inset 0 -3px var(--teal)}
+.workspace{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.workcard{background:#202e30;border-color:#465555;border-radius:3px;min-height:130px;padding:10px 11px}
+.workcard .label{color:#c7b47d}.workcard h3{font-size:12px}.workcard p{color:#aab7b0}
+.workcard button{background:#344344;border-color:#586866;border-radius:3px}
+.status{background:#263535;border-color:#53615c;border-left-color:var(--teal);border-radius:2px;color:#e0e4db}
+.event,.patientrow{background:#202d30;border-color:#465454;border-radius:3px}
+.event.urgent{background:#34292a;border-color:#a45d55}
+.log{background:#202c2f;border-left-color:#9b8b5e;border-radius:0;color:#c6cec5}
+aside .heading{border-bottom-color:#3b4b4d}
+@media(max-width:980px){.layout{grid-template-columns:minmax(0,1fr) 275px}.room{grid-template-columns:minmax(0,1fr) 235px}}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.room{grid-template-columns:1fr;min-height:0}.bed{height:105px}.room:before{display:none}}
+@media(max-width:460px){.workspace{grid-template-columns:1fr}.workcard{min-height:115px}}
 </style></head><body><main class="app">
 <header class="top"><div><div class="muted">急診部｜輪班現場</div><div class="brand">急診值班</div></div><div class="row"><span class="chip" id="clock">週一 08:00</span><span class="chip" id="shift">早班</span><button id="pause">開始值班</button><button id="speed">×1</button></div></header>
 <div class="layout"><section class="panel">
