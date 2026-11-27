@@ -53,16 +53,77 @@ main{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 265px;gap:10p
 .toast{position:absolute;left:50%;bottom:7%;transform:translateX(-50%);z-index:8;background:#111a18ee;border:1px solid #9a9879;padding:8px 14px;max-width:90%;font-size:12px;text-align:center;display:none}.toast.show{display:block}
 @media(max-width:900px){main{grid-template-columns:minmax(0,1fr) 230px}.stage{min-height:500px}.room-sign{right:2%}.monitor{right:5%}}
 @media(max-width:680px){.app{padding:8px}.top{align-items:flex-start}.brand{font-size:15px}.hud{justify-content:flex-end}.readout{font-size:10px;padding:5px 7px}main{grid-template-columns:1fr}.stage{min-height:65vh}.side{max-height:360px}.room-sign{font-size:8px}.bed-zone{left:4%;width:50%}.monitor{right:4%;width:19%}.nurse-desk{left:51%;width:40%}.player{transform:scale(.85);transform-origin:top left}}
+
+/* Illustrated ward scene replaces the previous primitive CSS props */
+.stage{min-height:620px;background:#26342f}
+.ward-art{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stage:before,.stage:after{display:none}
+.window,.bed-frame,.patient,.monitor-screen,.monitor-stand,.desk-screen,.chair,.phone,.door{display:none!important}
+.room-sign{right:3%;top:3%;z-index:2;background:#25342ee8;color:#e6e4d8;border-color:#9ca89b}
+.hotspot{z-index:4;background:transparent;border:1px solid transparent}
+.hotspot:hover,.hotspot:focus{background:#e5d4a00d;border:1px solid #e4d4a077}
+.bed-zone{left:12%;top:34%;width:56%;height:28%}
+.monitor{right:9%;top:15%;width:29%;height:24%}
+.nurse-desk{right:2%;bottom:15%;width:30%;height:35%}
+.phone-zone{right:2%;top:4%;width:16%;height:16%}
+.door-zone{left:0;bottom:3%;width:13%;height:29%}
+.player{width:24px;height:49px;z-index:5;filter:drop-shadow(0 3px 3px #1118)}
+.player:before{left:4px;width:17px;height:17px;background:#d4a987;border:2px solid #f4e0ca}
+.player:after{left:1px;top:18px;width:23px;height:29px;background:#6f8c87;border:2px solid #c9d4ca;border-radius:6px 6px 2px 2px}
+.player-label{top:-16px;left:-7px;background:#26342e;color:#fff0d2;border:1px solid #7d8d81}
+@media(max-width:680px){.stage{min-height:62vh}.bed-zone{left:10%;top:34%;width:58%;height:30%}.monitor{right:5%;top:15%;width:32%;height:24%}.nurse-desk{right:1%;bottom:15%;width:33%;height:35%}}
 </style></head><body>
 <div class="app">
 <header><div><div class="sub">EMERGENCY DEPARTMENT · NIGHT SHIFT</div><div class="brand">急診值班</div></div><div class="hud"><span class="readout" id="clock">週一 08:00</span><span class="readout" id="shift">早班</span><span class="readout" id="duty">交班中</span><button id="start">開始值班</button><button id="pause" hidden>暫停</button><button id="speed">×1</button></div></header>
 <main><section class="stage" id="stage" aria-label="急診病房場景">
-<div class="window"></div><div class="room-sign">急診觀察區 · ER-01</div>
-<div class="hotspot bed-zone" data-place="bed" tabindex="0" role="button" aria-label="處置床"><span class="hint">E｜查看病人</span><div class="bed-frame"></div><div class="patient"></div><div class="bed-label" id="bedlabel">處置床 ER-01</div></div>
-<div class="hotspot monitor" data-place="monitor" tabindex="0" role="button" aria-label="生命徵象監視器"><span class="hint">E｜查看監視器</span><div class="monitor-screen"></div><div class="monitor-stand"></div></div>
-<div class="hotspot nurse-desk" data-place="desk" tabindex="0" role="button" aria-label="護理站"><span class="hint">E｜護理站工作單</span><div class="desk-screen"></div><div class="chair"></div></div>
-<div class="hotspot phone-zone" data-place="phone" tabindex="0" role="button" aria-label="電話"><span class="hint">E｜接電話</span><div class="phone"></div></div>
-<div class="hotspot door-zone" data-place="door" tabindex="0" role="button" aria-label="出口"><span class="hint">E｜離開床邊</span><div class="door"></div></div>
+<svg class="ward-art" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs>
+ <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#e2e0d4"/><stop offset=".7" stop-color="#c5c9bd"/><stop offset="1" stop-color="#a5b1a7"/></linearGradient>
+ <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#697970"/><stop offset="1" stop-color="#34433e"/></linearGradient>
+ <linearGradient id="linen" x2="0" y2="1"><stop stop-color="#fffdf3"/><stop offset="1" stop-color="#c8d2c8"/></linearGradient>
+ <linearGradient id="metal" x2="0" y2="1"><stop stop-color="#e1e5df"/><stop offset=".5" stop-color="#8f9f98"/><stop offset="1" stop-color="#566761"/></linearGradient>
+ <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#9d8161"/><stop offset="1" stop-color="#5b4939"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
+ <pattern id="tiles" width="110" height="72" patternUnits="userSpaceOnUse"><path d="M0 0H110M0 0V72" stroke="#a9b6ac" stroke-opacity=".2" stroke-width="2"/></pattern>
+</defs>
+<rect width="1200" height="700" fill="#202a28"/><rect width="1200" height="500" fill="url(#wall)"/>
+<path d="M0 500H1200V700H0Z" fill="url(#floor)"/><path d="M0 500H1200V700H0Z" fill="url(#tiles)"/>
+<path d="M0 498H1200" stroke="#e5e5d9" stroke-width="8"/><path d="M0 511H1200" stroke="#74847a" stroke-width="3"/>
+<!-- ceiling light and window -->
+<rect x="70" y="28" width="420" height="16" rx="8" fill="#f7f4e8" opacity=".85"/><rect x="76" y="33" width="408" height="5" fill="#fff"/>
+<rect x="70" y="92" width="345" height="206" rx="3" fill="#697970"/><rect x="80" y="102" width="325" height="186" fill="#d4e2dc"/><rect x="88" y="110" width="309" height="170" fill="#8da8a0"/><path d="M242 110V280M88 194H397" stroke="#e1e7df" stroke-width="8"/><path d="M95 118L230 118L230 185Z" fill="#c7d8d0" opacity=".55"/>
+<rect x="455" y="100" width="260" height="44" rx="2" fill="#f4f1e7"/><rect x="455" y="100" width="260" height="44" fill="#63766e" opacity=".13"/><text x="470" y="128" fill="#53645c" font-size="18" font-family="sans-serif" letter-spacing="3">急診觀察區</text>
+<!-- wall rails / oxygen -->
+<path d="M0 340H1200" stroke="#8b9b90" stroke-width="8"/><path d="M0 350H1200" stroke="#e3e5da" stroke-width="3"/>
+<rect x="820" y="120" width="265" height="150" rx="6" fill="#d9ded4" stroke="#87968b" stroke-width="5"/><rect x="840" y="140" width="225" height="110" fill="#263a35"/><path d="M855 215L885 215L915 170L945 225L980 185L1010 185L1048 155" fill="none" stroke="#8ed0a7" stroke-width="4"/><text x="850" y="160" fill="#b9c9bf" font-size="12">ECG · SpO₂</text>
+<rect x="1100" y="120" width="52" height="145" rx="4" fill="#b8c4bb" stroke="#7d8d83" stroke-width="4"/><circle cx="1126" cy="155" r="11" fill="#e8ede4" stroke="#89998f" stroke-width="3"/><path d="M1126 166V235" stroke="#819188" stroke-width="6"/>
+<!-- curtain -->
+<path d="M0 175H40V430H0Z" fill="#aebdb2"/><path d="M40 175V430M10 175V430" stroke="#d9dfd5" stroke-width="3"/>
+<!-- bed shadow and frame -->
+<ellipse cx="480" cy="520" rx="400" ry="42" fill="#17211e" opacity=".42" filter="url(#shadow)"/>
+<path d="M140 350L760 350L835 410L215 410Z" fill="#5a6d64"/><path d="M150 326L755 326L818 382L213 382Z" fill="url(#metal)" stroke="#687970" stroke-width="5"/>
+<path d="M165 285L730 285L790 341L225 341Z" fill="#e8e9df" stroke="#9aa89e" stroke-width="4"/><path d="M225 341L790 341L790 372L225 372Z" fill="#a4b2a8"/>
+<path d="M180 270L700 270L758 324L238 324Z" fill="url(#linen)" stroke="#aab6ac" stroke-width="3"/>
+<!-- patient -->
+<ellipse cx="310" cy="288" rx="55" ry="48" fill="#a8795e" opacity=".2"/><ellipse cx="306" cy="278" rx="43" ry="38" fill="#d2a888"/><path d="M270 275Q270 237 310 238Q350 239 348 279Q320 263 270 275" fill="#4b4b45"/><path d="M270 291Q306 318 346 290L370 322L285 330Z" fill="#f0eee3"/><path d="M350 290L730 290L775 322L395 322Z" fill="#e6e9df"/><path d="M380 295L730 295L752 313L402 313Z" fill="#c4d1c7"/><path d="M405 300L710 300" stroke="#b3c1b7" stroke-width="2"/>
+<!-- bedside trolley -->
+<path d="M760 370L875 370L895 390L780 390Z" fill="#b5c1b8" stroke="#65766d" stroke-width="4"/><path d="M778 390V485M880 390V485" stroke="#9aa89f" stroke-width="9"/><path d="M755 485H900" stroke="#b9c4bb" stroke-width="8"/><circle cx="782" cy="493" r="11" fill="#28342f" stroke="#aab7ad" stroke-width="4"/><circle cx="878" cy="493" r="11" fill="#28342f" stroke="#aab7ad" stroke-width="4"/><rect x="778" y="400" width="100" height="52" fill="#dce3db" stroke="#87978d" stroke-width="3"/><rect x="790" y="410" width="76" height="30" fill="#8da79c"/>
+<!-- desk and chair -->
+<ellipse cx="1000" cy="585" rx="190" ry="30" fill="#17211e" opacity=".4" filter="url(#shadow)"/><path d="M850 440H1160V470H850Z" fill="#d6d8cb" stroke="#6f7d72" stroke-width="4"/><path d="M870 470H1140V600H870Z" fill="url(#wood)" stroke="#3e493f" stroke-width="5"/><path d="M900 480H1110V565H900Z" fill="#6b5844" opacity=".35"/>
+<rect x="890" y="386" width="180" height="48" rx="3" fill="#b8c6bc" stroke="#718177" stroke-width="4"/><rect x="900" y="394" width="160" height="32" fill="#263b34"/><path d="M910 416L940 405L960 417L985 402L1010 412L1045 400" fill="none" stroke="#8fc5a2" stroke-width="2"/>
+<path d="M925 600V666M1115 600V666" stroke="#7c6b56" stroke-width="18"/><path d="M885 666H1155" stroke="#5e6e64" stroke-width="10"/>
+<!-- rolling stool -->
+<ellipse cx="800" cy="620" rx="60" ry="13" fill="#17211e" opacity=".4"/><rect x="755" y="560" width="90" height="52" rx="7" fill="#66786e" stroke="#a7b4a9" stroke-width="4"/><path d="M800 612V650" stroke="#9eaaa0" stroke-width="8"/><path d="M765 650H835" stroke="#8d9b91" stroke-width="7"/>
+<!-- cabinet and door -->
+<rect x="25" y="370" width="100" height="230" fill="#a8b4aa" stroke="#65766d" stroke-width="6"/><rect x="35" y="380" width="80" height="210" fill="#dddcd0"/><path d="M35 450H115" stroke="#a2afa5" stroke-width="3"/><circle cx="100" cy="490" r="5" fill="#718178"/>
+<rect x="20" y="500" width="100" height="180" fill="#7a6b55" stroke="#b6a17c" stroke-width="5"/><path d="M35 510V670" stroke="#5d5141" stroke-width="3"/><circle cx="102" cy="590" r="5" fill="#e2c98e"/>
+</svg>
+<div class="room-sign">急診觀察區 · ER-01</div>
+<div class="hotspot bed-zone" data-place="bed" tabindex="0" role="button" aria-label="處置床"><span class="hint">E｜查看病人</span></div>
+<div class="hotspot monitor" data-place="monitor" tabindex="0" role="button" aria-label="生命徵象監視器"><span class="hint">E｜查看監視器</span></div>
+<div class="hotspot nurse-desk" data-place="desk" tabindex="0" role="button" aria-label="護理站"><span class="hint">E｜護理站工作單</span></div>
+<div class="hotspot phone-zone" data-place="phone" tabindex="0" role="button" aria-label="電話"><span class="hint">E｜接電話</span></div>
+<div class="hotspot door-zone" data-place="door" tabindex="0" role="button" aria-label="出口"><span class="hint">E｜離開床邊</span></div>
 <div class="player" id="player"><span class="player-label">你</span></div><div class="toast" id="toast"></div>
 </section>
 <aside class="side"><h2 class="side-title" id="sideTitle">當前病人</h2><div id="case"><p class="case-copy">先完成交班，開始值班後會自動派診。</p></div><h2 class="side-title" style="margin-top:12px">護理師／電話紀錄</h2><div class="loglist" id="logs"></div><div style="margin-top:10px;display:flex;gap:6px"><button id="handoff" style="flex:1">交班</button><button id="leave" style="flex:1">請假</button></div></aside></main>
