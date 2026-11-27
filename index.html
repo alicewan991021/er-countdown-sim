@@ -39,7 +39,7 @@ function spawn(){let t=templates[(s.seq+s.queue.length+s.done)%templates.length]
 function autoAssign(){if(!s.started||s.leave||s.patient||!s.queue.length)return;s.patient=s.queue.shift();s.patient.wait=0;log('系統派診：'+s.patient.name+'已安排至處置床。');}
 function currentTask(){return s.patient?.needs[s.patient.step]||'無待完成項目'}
 function doWork(kind){let p=s.patient;if(!p){say('目前沒有已派診病人；候診區仍會依分流接收新病人。');return}let expected=['評估','結果','計畫','病歷'];let step=p.step;let success=false;let msg='';
-if(kind==='評估'||kind==='生命徵象'||kind==='通報'){if(step===0){p.checked.assess=true;success=true;msg='完成初步評估，已更新病人狀況。';}else{msg='已核對床邊資料，仍有未完成工作：'+currentTask();}}
+if(kind==='評估'||kind==='生命徵象'||kind==='通報'){if(step===0){p.checked.assess=true;p.step=1;success=true;msg='完成初步評估，已更新病人狀況。';}else{msg='已核對床邊資料，仍有未完成工作：'+currentTask();}}
 else if(kind==='檢查狀態'||kind==='追問'){p.checked.test=true;success=true;msg=kind==='追問'?'已向檢查區追問，等待回報。':'已確認檢查進度。';if(step===1){p.step=2;msg='檢查狀態已確認，進入結果與照護計畫階段。';}}
 else if(kind==='結果'){if(step>=1){p.checked.result=true;p.step=Math.max(p.step,2);success=true;msg='已查看檢查回報並更新目前工作焦點。';}else msg='先完成床邊評估，才能進一步查看這個病例的結果。';}
 else if(kind==='計畫'||kind==='醫囑'||kind==='通知'){if(step>=2){p.checked.plan=true;p.step=3;success=true;msg='照護計畫已更新並通知護理師。';}else msg='先完成評估與檢查回報，再更新照護計畫。';}
