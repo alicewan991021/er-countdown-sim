@@ -65,6 +65,69 @@ aside .heading{border-bottom-color:#3b4b4d}
 @media(max-width:980px){.layout{grid-template-columns:minmax(0,1fr) 275px}.room{grid-template-columns:minmax(0,1fr) 235px}}
 @media(max-width:760px){.layout{grid-template-columns:1fr}.room{grid-template-columns:1fr;min-height:0}.bed{height:105px}.room:before{display:none}}
 @media(max-width:460px){.workspace{grid-template-columns:1fr}.workcard{min-height:115px}}
+</style><style id="full-scene-layout">
+/* Full-scene composition: the ward is the game, not a dashboard */
+body{background:#0d1214;color:#eee9dc;font-size:13px}
+.app{max-width:none;width:100%;padding:10px 14px 16px}
+.top{max-width:1500px;margin:0 auto 10px;padding:0 0 9px;border-bottom:1px solid #303b3d}
+.brand{font-size:20px;letter-spacing:.09em}
+.layout{max-width:1500px;margin:0 auto;grid-template-columns:minmax(0,1fr) 270px;gap:10px}
+.panel{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.layout>section.panel{display:flex;flex-direction:column}
+.layout>section.panel>.row:first-child{padding:0 2px 7px}
+.heading{margin-bottom:5px;color:#b8c0b8;font-size:10px;letter-spacing:.18em}
+.scene{border:1px solid #485553;border-radius:2px;background:#202b2c;box-shadow:0 8px 28px #0005}
+.sceneTop{padding:7px 11px;background:#172022;border-bottom:1px solid #485553}
+.sceneTop b{font-size:10px;letter-spacing:.15em;color:#d7d7c9}
+.room{min-height:350px;grid-template-columns:minmax(0,1fr) 245px;padding:18px;gap:14px;background:linear-gradient(180deg,#52605b 0%,#3a4946 46%,#293634 100%);border-bottom:1px solid #65716a}
+.room:before{opacity:.55;background:linear-gradient(90deg,transparent 0 18%,#a7b2a6 18.2%,transparent 18.6% 61%,#a7b2a6 61.2%,transparent 61.6%),linear-gradient(180deg,#8b9b8e 0 2px,transparent 2px 28%,#a7b2a6 28.2%,transparent 28.5%),repeating-linear-gradient(90deg,transparent 0 100px,#8a9a90 101px,#8a9a90 102px,transparent 103px);mask-image:linear-gradient(180deg,#000,transparent 90%)}
+.room:after{height:48px;opacity:.8;background:repeating-linear-gradient(90deg,#1a2425 0 78px,#394744 79px 81px)}
+.area{background:#172224e8;border:1px solid #718078;border-radius:1px;box-shadow:0 9px 20px #0004;padding:12px}
+.room>.area:first-child{background:linear-gradient(180deg,#172224e8,#263433d9);display:flex;flex-direction:column;justify-content:space-between}
+.room>.area:nth-child(2){align-self:stretch;background:#182325f0;border-color:#5d6b65}
+.label{color:#c1c5b6;font-size:9px;letter-spacing:.16em}
+.bed{height:180px;justify-content:flex-start;gap:22px;padding:0 10px}
+.person{width:45px;height:45px}
+.person:after{left:28px;top:9px;width:min(290px,34vw);height:66px;border-radius:2px;background:linear-gradient(180deg,#f1eee4 0%,#c8d2ca 52%,#879b94 100%);box-shadow:0 8px 0 #657871,0 12px 15px #0005}
+.person:before{left:25px;top:3px;width:24px;height:77px;border-radius:2px;background:#d8dfd7;box-shadow:5px 0 #9eafa7}
+.person.empty:after{background:linear-gradient(180deg,#879a91,#53655e);box-shadow:0 8px 0 #394a45,0 12px 15px #0005}
+.person.empty:before{background:#667a71;box-shadow:5px 0 #475a52}
+.area h3{font-size:15px;letter-spacing:.02em}
+.vital{background:#0d1718;border-color:#53635c;border-radius:1px;color:#d6dbce}
+#focus{font-size:20px;line-height:1.4;color:#f1e9d7}
+#focusText{font-size:12px;line-height:1.8;color:#c1c9c0;min-height:70px}
+.bar{background:#3a4945}.bar span{background:#d7bd82}
+#progressText{color:#c2c6b9}
+.stationbar{margin:9px 0 11px;background:#151d1f;border:1px solid #394746;border-radius:1px}
+.stationbar button{padding:10px 7px;font-size:11px;color:#aab3ab;border-right:1px solid #394746}
+.stationbar button.on{background:#3a4944;color:#f4e4bb;box-shadow:inset 0 -2px #d7bd82}
+#stationTitle{font-size:11px;letter-spacing:.15em}
+.workspace{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.workcard{min-height:112px;padding:10px;background:#192426;border:1px solid #394847;border-radius:1px}
+.workcard .label{color:#b8a36f}
+.workcard h3{font-size:12px;color:#e8e4d9}
+.workcard p{color:#aeb8b0}
+.workcard button{margin-top:8px;padding:7px 8px;background:#2b3938;border:1px solid #53615b;border-radius:1px}
+.status{margin-top:7px;padding:9px 11px;background:#263431;border:1px solid #56665d;border-left:3px solid #d7bd82;border-radius:1px;color:#e2e2d6}
+#events{grid-template-columns:1fr;gap:6px}
+.event,.patientrow{background:#192426;border:1px solid #394847;border-radius:1px}
+.event.urgent{background:#342525;border-color:#98615a}
+.event b{font-size:11px}.event p{font-size:11px;color:#c2c8bf}
+.eventActions button{border-radius:1px;background:#2b3938}
+aside.panel{background:#151e20;border:1px solid #3b4947;padding:11px;align-self:stretch}
+aside.panel>.row:first-child{padding-bottom:8px;border-bottom:1px solid #3b4947;margin-bottom:8px}
+aside .heading{font-size:10px;letter-spacing:.15em}
+#queue{gap:5px}
+.patientrow{padding:8px}
+.timeline{max-height:245px}
+.log{background:#202c2c;border-left-color:#b9a36d;padding:7px 8px;font-size:10px}
+.log time{color:#a8b1a8}
+aside .row button{padding:8px 7px}
+aside p{font-size:11px;color:#9eaaa2}
+.foot{max-width:1500px;margin:8px auto;color:#687772}
+@media(max-width:980px){.layout{grid-template-columns:minmax(0,1fr) 240px}.room{grid-template-columns:minmax(0,1fr) 220px}.workspace{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.app{padding:8px}.layout{grid-template-columns:1fr}.room{grid-template-columns:1fr;min-height:0;padding:10px}.bed{height:120px}.person:after{width:min(260px,55vw)}aside.panel{margin-top:8px}.workspace{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:460px){.workspace{grid-template-columns:1fr}.stationbar button{min-width:calc(50% - 5px)}.room{padding:8px}.bed{height:100px}}
 </style></head><body><main class="app">
 <header class="top"><div><div class="muted">急診部｜輪班現場</div><div class="brand">急診值班</div></div><div class="row"><span class="chip" id="clock">週一 08:00</span><span class="chip" id="shift">早班</span><button id="pause">開始值班</button><button id="speed">×1</button></div></header>
 <div class="layout"><section class="panel">
