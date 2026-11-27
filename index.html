@@ -72,51 +72,145 @@ main{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 265px;gap:10p
 .player:after{left:1px;top:18px;width:23px;height:29px;background:#6f8c87;border:2px solid #c9d4ca;border-radius:6px 6px 2px 2px}
 .player-label{top:-16px;left:-7px;background:#26342e;color:#fff0d2;border:1px solid #7d8d81}
 @media(max-width:680px){.stage{min-height:62vh}.bed-zone{left:10%;top:34%;width:58%;height:30%}.monitor{right:5%;top:15%;width:32%;height:24%}.nurse-desk{right:1%;bottom:15%;width:33%;height:35%}}
+
+/* Intentional art direction: calm, cinematic hospital illustration */
+:root{--paper:#edf2ec;--muted:#aebdb5;--line:#526a61;--gold:#e4c88a;--red:#df7770}
+body{background:#0b1413;color:#edf2ec}
+.app{max-width:1920px;margin:auto;padding:14px 18px;gap:12px}
+header{padding:2px 4px 12px;border-color:#344a43}
+.brand{font-size:20px;letter-spacing:.04em}
+.sub{color:#91a99d;letter-spacing:.17em}
+.readout{border-radius:5px;background:#172521;border-color:#3f5a50}
+button{border-radius:5px;background:linear-gradient(180deg,#344b43,#263a34);border-color:#536c61;transition:background .16s,border-color .16s,transform .16s}
+button:hover{background:#435f53;border-color:#e4c88a;transform:translateY(-1px)}
+#start{box-shadow:0 2px 0 #8c7447;background:linear-gradient(180deg,#f1d99c,#d6b875);color:#18251f}
+main{grid-template-columns:minmax(0,1fr) 290px;gap:12px}
+.stage{border:1px solid #70877b;border-radius:7px;box-shadow:0 18px 45px #0005;min-height:650px;background:#c2d0ca}
+.stage:after{content:"";display:block;position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#0b19150c,transparent 20% 80%,#0b19150c),linear-gradient(0deg,#0a17122a,transparent 24% 78%,#f4f4e90a)}
+.ward-art{filter:saturate(.92)}
+.room-sign{border-radius:4px;box-shadow:0 4px 12px #13231d30;letter-spacing:.1em}
+.hotspot{z-index:4}
+.hotspot:hover,.hotspot:focus{border-color:#f1d99caa;background:#f1d99c12;box-shadow:inset 0 0 0 1px #f1d99c30}
+.side{border-radius:7px;background:linear-gradient(160deg,#1b2c26,#111d1a);border-color:#40594e;padding:14px;box-shadow:0 14px 35px #0003}
+.side-title{font-size:11px;letter-spacing:.12em;color:#d3dfd5;border-color:#344b40}
+.case-title{font-size:16px;letter-spacing:.01em}
+.case-copy{font-size:12px;color:#bdcbc2}
+.metric{border-radius:4px;border-color:#456055;background:#10201a}
+.log{border-radius:3px;background:#20332b;border-left-color:#d6bd7f}
+.dialog{border-radius:10px;background:linear-gradient(145deg,#20352d,#101e19);border-color:#82988b}
+.dialog-actions button{border-radius:5px}
+.bottom{border-color:#344a40}
+.key{border-radius:4px;background:#17251f;border-color:#4a6255}
+@media(max-width:900px){main{grid-template-columns:minmax(0,1fr) 250px}.stage{min-height:560px}}
+@media(max-width:680px){.app{padding:7px}.stage{min-height:62vh;border-radius:5px}.side{border-radius:5px}}
 </style></head><body>
 <div class="app">
 <header><div><div class="sub">EMERGENCY DEPARTMENT · NIGHT SHIFT</div><div class="brand">急診值班</div></div><div class="hud"><span class="readout" id="clock">週一 08:00</span><span class="readout" id="shift">早班</span><span class="readout" id="duty">交班中</span><button id="start">開始值班</button><button id="pause" hidden>暫停</button><button id="speed">×1</button></div></header>
 <main><section class="stage" id="stage" aria-label="急診病房場景">
 <svg class="ward-art" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
 <defs>
- <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#e2e0d4"/><stop offset=".7" stop-color="#c5c9bd"/><stop offset="1" stop-color="#a5b1a7"/></linearGradient>
- <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#697970"/><stop offset="1" stop-color="#34433e"/></linearGradient>
- <linearGradient id="linen" x2="0" y2="1"><stop stop-color="#fffdf3"/><stop offset="1" stop-color="#c8d2c8"/></linearGradient>
- <linearGradient id="metal" x2="0" y2="1"><stop stop-color="#e1e5df"/><stop offset=".5" stop-color="#8f9f98"/><stop offset="1" stop-color="#566761"/></linearGradient>
- <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#9d8161"/><stop offset="1" stop-color="#5b4939"/></linearGradient>
- <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
- <pattern id="tiles" width="110" height="72" patternUnits="userSpaceOnUse"><path d="M0 0H110M0 0V72" stroke="#a9b6ac" stroke-opacity=".2" stroke-width="2"/></pattern>
+ <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#dce4e1"/><stop offset=".58" stop-color="#c2d0cb"/><stop offset="1" stop-color="#8eaaa3"/></linearGradient>
+ <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#6c8881"/><stop offset="1" stop-color="#253d3a"/></linearGradient>
+ <linearGradient id="sheet" x2="0" y2="1"><stop stop-color="#fffef7"/><stop offset=".55" stop-color="#e5ece6"/><stop offset="1" stop-color="#c1d0c8"/></linearGradient>
+ <linearGradient id="steel" x2="0" y2="1"><stop stop-color="#f1f4ef"/><stop offset=".35" stop-color="#aebfb7"/><stop offset="1" stop-color="#637b72"/></linearGradient>
+ <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#b99a72"/><stop offset="1" stop-color="#6b503b"/></linearGradient>
+ <linearGradient id="screen" x2="0" y2="1"><stop stop-color="#173b35"/><stop offset="1" stop-color="#091e1c"/></linearGradient>
+ <radialGradient id="ambient"><stop stop-color="#f9f7e8" stop-opacity=".65"/><stop offset="1" stop-color="#a3b5ad" stop-opacity="0"/></radialGradient>
+ <filter id="softShadow" x="-40%" y="-40%" width="180%" height="200%"><feGaussianBlur stdDeviation="12"/></filter>
+ <filter id="smallShadow" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur stdDeviation="4"/></filter>
+ <pattern id="wallgrain" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M0 47.5H48" stroke="#fff" stroke-opacity=".12"/><circle cx="7" cy="8" r=".8" fill="#6d8a80" opacity=".2"/></pattern>
+ <pattern id="floorTiles" width="130" height="88" patternUnits="userSpaceOnUse"><path d="M0 0H130M0 0V88" stroke="#d5e1d8" stroke-opacity=".12" stroke-width="2"/></pattern>
 </defs>
-<rect width="1200" height="700" fill="#202a28"/><rect width="1200" height="500" fill="url(#wall)"/>
-<path d="M0 500H1200V700H0Z" fill="url(#floor)"/><path d="M0 500H1200V700H0Z" fill="url(#tiles)"/>
-<path d="M0 498H1200" stroke="#e5e5d9" stroke-width="8"/><path d="M0 511H1200" stroke="#74847a" stroke-width="3"/>
-<!-- ceiling light and window -->
-<rect x="70" y="28" width="420" height="16" rx="8" fill="#f7f4e8" opacity=".85"/><rect x="76" y="33" width="408" height="5" fill="#fff"/>
-<rect x="70" y="92" width="345" height="206" rx="3" fill="#697970"/><rect x="80" y="102" width="325" height="186" fill="#d4e2dc"/><rect x="88" y="110" width="309" height="170" fill="#8da8a0"/><path d="M242 110V280M88 194H397" stroke="#e1e7df" stroke-width="8"/><path d="M95 118L230 118L230 185Z" fill="#c7d8d0" opacity=".55"/>
-<rect x="455" y="100" width="260" height="44" rx="2" fill="#f4f1e7"/><rect x="455" y="100" width="260" height="44" fill="#63766e" opacity=".13"/><text x="470" y="128" fill="#53645c" font-size="18" font-family="sans-serif" letter-spacing="3">急診觀察區</text>
-<!-- wall rails / oxygen -->
-<path d="M0 340H1200" stroke="#8b9b90" stroke-width="8"/><path d="M0 350H1200" stroke="#e3e5da" stroke-width="3"/>
-<rect x="820" y="120" width="265" height="150" rx="6" fill="#d9ded4" stroke="#87968b" stroke-width="5"/><rect x="840" y="140" width="225" height="110" fill="#263a35"/><path d="M855 215L885 215L915 170L945 225L980 185L1010 185L1048 155" fill="none" stroke="#8ed0a7" stroke-width="4"/><text x="850" y="160" fill="#b9c9bf" font-size="12">ECG · SpO₂</text>
-<rect x="1100" y="120" width="52" height="145" rx="4" fill="#b8c4bb" stroke="#7d8d83" stroke-width="4"/><circle cx="1126" cy="155" r="11" fill="#e8ede4" stroke="#89998f" stroke-width="3"/><path d="M1126 166V235" stroke="#819188" stroke-width="6"/>
-<!-- curtain -->
-<path d="M0 175H40V430H0Z" fill="#aebdb2"/><path d="M40 175V430M10 175V430" stroke="#d9dfd5" stroke-width="3"/>
-<!-- bed shadow and frame -->
-<ellipse cx="480" cy="520" rx="400" ry="42" fill="#17211e" opacity=".42" filter="url(#shadow)"/>
-<path d="M140 350L760 350L835 410L215 410Z" fill="#5a6d64"/><path d="M150 326L755 326L818 382L213 382Z" fill="url(#metal)" stroke="#687970" stroke-width="5"/>
-<path d="M165 285L730 285L790 341L225 341Z" fill="#e8e9df" stroke="#9aa89e" stroke-width="4"/><path d="M225 341L790 341L790 372L225 372Z" fill="#a4b2a8"/>
-<path d="M180 270L700 270L758 324L238 324Z" fill="url(#linen)" stroke="#aab6ac" stroke-width="3"/>
-<!-- patient -->
-<ellipse cx="310" cy="288" rx="55" ry="48" fill="#a8795e" opacity=".2"/><ellipse cx="306" cy="278" rx="43" ry="38" fill="#d2a888"/><path d="M270 275Q270 237 310 238Q350 239 348 279Q320 263 270 275" fill="#4b4b45"/><path d="M270 291Q306 318 346 290L370 322L285 330Z" fill="#f0eee3"/><path d="M350 290L730 290L775 322L395 322Z" fill="#e6e9df"/><path d="M380 295L730 295L752 313L402 313Z" fill="#c4d1c7"/><path d="M405 300L710 300" stroke="#b3c1b7" stroke-width="2"/>
+<rect width="1200" height="700" fill="#243a36"/>
+<rect width="1200" height="510" fill="url(#wall)"/><rect width="1200" height="510" fill="url(#wallgrain)"/><rect width="1200" height="510" fill="url(#ambient)"/>
+<!-- upper light and architectural trim -->
+<rect x="0" y="0" width="1200" height="18" fill="#f4f4e9"/><rect x="0" y="18" width="1200" height="4" fill="#9aada5"/>
+<rect x="65" y="42" width="430" height="14" rx="7" fill="#f7f8ef" opacity=".8"/><rect x="76" y="45" width="408" height="4" rx="2" fill="#fff"/>
+<path d="M0 322H1200" stroke="#8da59b" stroke-width="9"/><path d="M0 334H1200" stroke="#edf0e8" stroke-width="3"/>
+<!-- window with exterior silhouettes -->
+<rect x="66" y="72" width="360" height="224" rx="3" fill="#7c948b" stroke="#637a71" stroke-width="8"/>
+<rect x="82" y="88" width="328" height="192" fill="#a6c2ba"/>
+<path d="M82 232L140 177L198 210L258 141L326 207L410 160V280H82Z" fill="#8ba99f" opacity=".65"/>
+<path d="M82 88L235 88L82 190Z" fill="#e4eee7" opacity=".45"/>
+<path d="M246 88V280M82 184H410" stroke="#e8eee8" stroke-width="10"/>
+<rect x="66" y="296" width="360" height="9" fill="#71877d"/>
+<!-- wall label and equipment rail -->
+<rect x="476" y="90" width="258" height="54" rx="5" fill="#f2f1e8" stroke="#b5c5bc" stroke-width="2"/>
+<text x="496" y="112" font-size="10" letter-spacing="2" fill="#6c8278" font-family="sans-serif">OBSERVATION BAY</text><text x="496" y="133" font-size="22" font-weight="700" letter-spacing="2" fill="#476158" font-family="sans-serif">急診觀察區</text>
+<rect x="0" y="356" width="1200" height="9" fill="#b4c5bc"/><rect x="0" y="367" width="1200" height="3" fill="#e9eee7"/>
+<!-- oxygen / suction panel -->
+<rect x="842" y="82" width="286" height="172" rx="9" fill="#e7ece5" stroke="#8da39a" stroke-width="7"/>
+<rect x="860" y="100" width="250" height="136" rx="4" fill="url(#screen)"/>
+<text x="879" y="124" font-size="13" fill="#c2d8cd" font-family="monospace">ECG  ·  SpO₂  ·  NIBP</text>
+<path d="M878 185H908L930 155L952 206L982 143L1007 185H1034L1055 165L1089 165" fill="none" stroke="#84d8ae" stroke-width="4" stroke-linejoin="round"/>
+<text x="879" y="222" font-size="10" fill="#86b79e" font-family="monospace">HR 116  /  SpO₂ 92%</text>
+<rect x="1144" y="91" width="36" height="158" rx="5" fill="#dce5de" stroke="#91a59b" stroke-width="5"/>
+<circle cx="1162" cy="122" r="12" fill="#f8f8ef" stroke="#a1b2a7" stroke-width="4"/><path d="M1162 134V219" stroke="#8ca196" stroke-width="8"/>
+<!-- curtain track and privacy curtain -->
+<path d="M0 148H48" stroke="#70877d" stroke-width="6"/><path d="M20 154V428H0V154Z" fill="#c2d4cc"/><path d="M7 154V425M15 154V425M23 154V425M31 154V425" stroke="#e7eee8" stroke-width="2" opacity=".55"/>
+<!-- bed shadow -->
+<ellipse cx="465" cy="518" rx="395" ry="48" fill="#152d28" opacity=".35" filter="url(#softShadow)"/>
+<!-- bed wheels and frame -->
+<path d="M132 370L755 370L825 424L202 424Z" fill="#536c62"/>
+<path d="M167 390L766 390L783 405L184 405Z" fill="#8fa49a"/>
+<path d="M196 407V502M735 407V502" stroke="#758d82" stroke-width="15"/>
+<path d="M180 500H750" stroke="#b6c6bc" stroke-width="12"/>
+<circle cx="218" cy="511" r="15" fill="#263b35" stroke="#aabdb2" stroke-width="6"/><circle cx="710" cy="511" r="15" fill="#263b35" stroke="#aabdb2" stroke-width="6"/>
+<!-- mattress and rails -->
+<path d="M119 322L736 322L807 379L190 379Z" fill="url(#steel)" stroke="#6c8378" stroke-width="5"/>
+<path d="M139 285L713 285L781 342L207 342Z" fill="#f5f5ed" stroke="#9aada3" stroke-width="4"/>
+<path d="M139 285L713 285L781 342L207 342Z" fill="url(#sheet)"/>
+<path d="M139 285L713 285L781 342L207 342Z" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="2"/>
+<path d="M200 342L781 342V363L200 363Z" fill="#a8bcb2"/>
+<path d="M145 318L208 367M715 318L781 367" stroke="#e4e9e2" stroke-width="9"/>
+<!-- pillow and patient -->
+<path d="M207 277L330 277L376 323L252 323Z" fill="#d3ded6" stroke="#a5b9ae" stroke-width="3"/>
+<path d="M222 282L322 282L357 315L256 315Z" fill="#f8f6ec"/>
+<ellipse cx="292" cy="282" rx="49" ry="52" fill="#a8b9af" opacity=".24" filter="url(#smallShadow)"/>
+<path d="M247 282C244 250 265 226 298 226C330 226 349 248 343 282L333 303L258 303Z" fill="#4c514e"/>
+<ellipse cx="296" cy="279" rx="42" ry="47" fill="#d9ad8d"/>
+<path d="M254 273C256 242 275 229 301 231C327 233 343 251 339 278C315 263 283 264 254 273Z" fill="#4d4a46"/>
+<path d="M263 287Q295 299 329 286" fill="none" stroke="#b77f69" stroke-width="2" opacity=".65"/>
+<path d="M256 313L344 313L399 344L348 365L269 350Z" fill="#e9eee7"/>
+<path d="M340 318L715 318L760 349L392 349Z" fill="#e8ede6"/>
+<path d="M382 323L708 323L740 344L405 344Z" fill="#c9d7ce"/>
+<path d="M410 328H696" stroke="#b2c5ba" stroke-width="2"/>
+<!-- bed side rail controls -->
+<path d="M162 356L215 401M742 356L792 398" stroke="#dbe4dc" stroke-width="7"/>
+<rect x="760" y="374" width="34" height="18" rx="4" fill="#d4dfd7" stroke="#84998e" stroke-width="3"/>
 <!-- bedside trolley -->
-<path d="M760 370L875 370L895 390L780 390Z" fill="#b5c1b8" stroke="#65766d" stroke-width="4"/><path d="M778 390V485M880 390V485" stroke="#9aa89f" stroke-width="9"/><path d="M755 485H900" stroke="#b9c4bb" stroke-width="8"/><circle cx="782" cy="493" r="11" fill="#28342f" stroke="#aab7ad" stroke-width="4"/><circle cx="878" cy="493" r="11" fill="#28342f" stroke="#aab7ad" stroke-width="4"/><rect x="778" y="400" width="100" height="52" fill="#dce3db" stroke="#87978d" stroke-width="3"/><rect x="790" y="410" width="76" height="30" fill="#8da79c"/>
-<!-- desk and chair -->
-<ellipse cx="1000" cy="585" rx="190" ry="30" fill="#17211e" opacity=".4" filter="url(#shadow)"/><path d="M850 440H1160V470H850Z" fill="#d6d8cb" stroke="#6f7d72" stroke-width="4"/><path d="M870 470H1140V600H870Z" fill="url(#wood)" stroke="#3e493f" stroke-width="5"/><path d="M900 480H1110V565H900Z" fill="#6b5844" opacity=".35"/>
-<rect x="890" y="386" width="180" height="48" rx="3" fill="#b8c6bc" stroke="#718177" stroke-width="4"/><rect x="900" y="394" width="160" height="32" fill="#263b34"/><path d="M910 416L940 405L960 417L985 402L1010 412L1045 400" fill="none" stroke="#8fc5a2" stroke-width="2"/>
-<path d="M925 600V666M1115 600V666" stroke="#7c6b56" stroke-width="18"/><path d="M885 666H1155" stroke="#5e6e64" stroke-width="10"/>
-<!-- rolling stool -->
-<ellipse cx="800" cy="620" rx="60" ry="13" fill="#17211e" opacity=".4"/><rect x="755" y="560" width="90" height="52" rx="7" fill="#66786e" stroke="#a7b4a9" stroke-width="4"/><path d="M800 612V650" stroke="#9eaaa0" stroke-width="8"/><path d="M765 650H835" stroke="#8d9b91" stroke-width="7"/>
-<!-- cabinet and door -->
-<rect x="25" y="370" width="100" height="230" fill="#a8b4aa" stroke="#65766d" stroke-width="6"/><rect x="35" y="380" width="80" height="210" fill="#dddcd0"/><path d="M35 450H115" stroke="#a2afa5" stroke-width="3"/><circle cx="100" cy="490" r="5" fill="#718178"/>
-<rect x="20" y="500" width="100" height="180" fill="#7a6b55" stroke="#b6a17c" stroke-width="5"/><path d="M35 510V670" stroke="#5d5141" stroke-width="3"/><circle cx="102" cy="590" r="5" fill="#e2c98e"/>
+<ellipse cx="850" cy="520" rx="90" ry="19" fill="#203631" opacity=".28" filter="url(#smallShadow)"/>
+<path d="M795 350L924 350L945 369L815 369Z" fill="#dce5de" stroke="#81978c" stroke-width="4"/>
+<path d="M817 369V488M918 369V488" stroke="#91a69b" stroke-width="9"/>
+<path d="M790 488H942" stroke="#aabdb3" stroke-width="8"/>
+<circle cx="817" cy="497" r="11" fill="#30453e" stroke="#c3d0c7" stroke-width="4"/><circle cx="918" cy="497" r="11" fill="#30453e" stroke="#c3d0c7" stroke-width="4"/>
+<rect x="810" y="378" width="108" height="64" rx="4" fill="#f1f2e9" stroke="#9aada2" stroke-width="3"/>
+<rect x="822" y="390" width="84" height="40" rx="2" fill="#d1dfd5"/><path d="M832 409H896" stroke="#9aafa3" stroke-width="2"/>
+<rect x="826" y="451" width="75" height="22" rx="3" fill="#b4c6bb"/>
+<!-- monitor cart and desk -->
+<path d="M854 464H1172V491H854Z" fill="#dce3da" stroke="#8b9c90" stroke-width="4"/>
+<path d="M877 491H1150V626H877Z" fill="url(#wood)" stroke="#4c554b" stroke-width="5"/>
+<path d="M900 506H1128V600H900Z" fill="#6b523c" opacity=".25"/>
+<path d="M904 626V692M1120 626V692" stroke="#795f45" stroke-width="20"/>
+<rect x="887" y="414" width="184" height="42" rx="4" fill="#dce5de" stroke="#879b90" stroke-width="4"/>
+<rect x="899" y="423" width="160" height="25" rx="2" fill="#15332d"/>
+<path d="M910 439L936 433L951 441L972 428L990 438L1015 430L1046 435" fill="none" stroke="#86d1a9" stroke-width="2"/>
+<!-- chair -->
+<ellipse cx="795" cy="656" rx="67" ry="17" fill="#1c332e" opacity=".4"/>
+<rect x="751" y="567" width="90" height="62" rx="10" fill="#536e64" stroke="#a2b6aa" stroke-width="5"/>
+<path d="M796 629V671M761 671H831" stroke="#9aada2" stroke-width="9"/>
+<!-- cabinet / door -->
+<rect x="24" y="410" width="112" height="240" rx="3" fill="#dce4dc" stroke="#879c90" stroke-width="6"/>
+<rect x="37" y="424" width="86" height="211" fill="#f0f0e7"/><path d="M37 524H123" stroke="#b3c3b9" stroke-width="4"/>
+<circle cx="110" cy="558" r="6" fill="#738b7f"/>
+<rect x="20" y="570" width="118" height="130" fill="url(#wood)" stroke="#a9906d" stroke-width="5"/>
+<path d="M34 582V688" stroke="#6b503c" stroke-width="4"/><circle cx="117" cy="633" r="6" fill="#e4c88a"/>
+<!-- floor plane -->
+<path d="M0 528H1200V700H0Z" fill="url(#floor)"/><path d="M0 528H1200V700H0Z" fill="url(#floorTiles)"/>
+<path d="M0 530H1200" stroke="#d9e2d9" stroke-width="7"/><path d="M0 542H1200" stroke="#8da49a" stroke-width="3"/>
+<path d="M0 685H1200" stroke="#a6b9ae" stroke-opacity=".15" stroke-width="2"/>
+<!-- foreground subtle vignette -->
+<rect width="1200" height="700" fill="none" stroke="#172a26" stroke-opacity=".24" stroke-width="28"/>
 </svg>
 <div class="room-sign">急診觀察區 · ER-01</div>
 <div class="hotspot bed-zone" data-place="bed" tabindex="0" role="button" aria-label="處置床"><span class="hint">E｜查看病人</span></div>
