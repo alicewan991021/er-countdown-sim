@@ -1,192 +1,104 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>急診值班</title>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>急診值班｜夜班現場</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap');
-:root{color-scheme:dark;--bg:#0a1118;--panel:#111d27;--line:#2a3b47;--ink:#edf3f6;--muted:#879aa6;--teal:#a6e0d1;--red:#f08d91}*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at 50% -20%,#203541 0%,#0a1118 54%);color:var(--ink);font:13px/1.55 "Noto Sans TC",system-ui,sans-serif;min-height:100vh}
-button{font:inherit;color:inherit;background:linear-gradient(180deg,#263a46,#1b2d38);border:1px solid #354b58;border-radius:7px;padding:9px 12px;cursor:pointer;transition:background .16s,border-color .16s,transform .16s}button:hover{border-color:#80b9b0;background:#2b4650}button:active{transform:translateY(1px)}button:disabled{opacity:.35;cursor:default}
-.app{max-width:1460px;margin:auto;padding:20px 22px}.top,.row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.top{gap:16px;padding:0 2px 16px;border-bottom:1px solid #253640}.top>div:first-child{position:relative;padding-left:14px}.top>div:first-child:before{content:"";position:absolute;left:0;top:5px;bottom:5px;width:3px;border-radius:3px;background:var(--teal)}.top .muted{font-size:10px;letter-spacing:.15em;text-transform:uppercase}.brand{font-size:27px;letter-spacing:.04em;font-weight:900;line-height:1.35}.top .row{gap:7px}
-.chip{border:1px solid #304450;border-radius:5px;padding:6px 10px;font-size:11px;color:#c3d0d6;background:#13212b;letter-spacing:.03em}#clock{font-family:"DM Mono",monospace;color:var(--teal);font-size:12px}#pause{background:var(--teal);color:#102a2a;border-color:var(--teal);font-weight:800}#speed{font-family:"DM Mono",monospace;min-width:52px}
-.layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(300px,.78fr);gap:14px;margin-top:16px;align-items:start}.panel{background:linear-gradient(155deg,rgba(24,39,50,.98),rgba(15,26,36,.98));border:1px solid #2b3e49;border-radius:12px;padding:16px;min-width:0;box-shadow:0 16px 45px #0002}
-.heading{font-size:12px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;margin:0 0 12px;color:#c9d7dd}#duty{font-size:10px;text-transform:uppercase;letter-spacing:.08em}
-.scene{border:1px solid #354b56;border-radius:9px;overflow:hidden;background:#111e27;box-shadow:inset 0 0 0 1px #ffffff05}.sceneTop{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;background:linear-gradient(90deg,#243c47,#1a2d38);border-bottom:1px solid #3b515b}.sceneTop b{font-size:12px;letter-spacing:.07em}.sceneTop .muted{font-family:"DM Mono",monospace;font-size:10px}
-.room{padding:15px;min-height:220px;display:grid;grid-template-columns:1.05fr .95fr;gap:12px;background:radial-gradient(ellipse at 22% 0%,#263d46 0%,#182b35 50%,#12212a 100%);position:relative}.room:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.16;background:repeating-linear-gradient(90deg,transparent 0 62px,#8eabb0 63px,#8eabb0 64px,transparent 65px);mask-image:linear-gradient(90deg,#000,transparent 70%)}
-.area{position:relative;background:linear-gradient(145deg,#20343eeb,#172933f2);border:1px solid #49606b;border-radius:7px;padding:13px;box-shadow:0 5px 15px #0002;min-width:0}.label{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.12em;color:#91a8b2;text-transform:uppercase}
-.bed{display:flex;align-items:center;gap:14px;height:90px;margin:5px 0 8px;padding:0 4px}.person{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#e4c4a7,#9d7c68);position:relative;flex:0 0 auto;box-shadow:0 0 0 5px #d5b79a12}.person:after{content:"";position:absolute;left:28px;top:8px;width:112px;height:39px;border-radius:7px;background:linear-gradient(180deg,#e3ebed,#a8bec5);box-shadow:0 5px 0 #6d8790,0 9px 12px #0004}.person:before{content:"";position:absolute;left:24px;top:4px;width:18px;height:46px;border-radius:5px;background:#b7c9ce;z-index:1;transform:rotate(8deg)}.person.empty{background:linear-gradient(135deg,#61747d,#394d57);box-shadow:0 0 0 5px #91a9b012}.person.empty:after{background:linear-gradient(180deg,#5e7780,#3b535d);box-shadow:0 5px 0 #263b46,0 9px 12px #0004}.person.empty:before{background:#49616b}
-.area h3{margin:8px 0 5px;font-size:16px;font-weight:800;letter-spacing:.01em}.vitals{display:flex;gap:5px;flex-wrap:wrap}.vital{font:10px "DM Mono",monospace;background:#101d26;border:1px solid #344b56;border-radius:4px;padding:5px 7px;color:#bdd0d8}
-#focus{font-size:16px;line-height:1.4;margin:9px 0}#focusText{font-size:12px;line-height:1.7;min-height:54px;color:#a5b7c0}.bar{height:4px;background:#31444f;border-radius:5px;overflow:hidden}.bar span{display:block;height:100%;background:linear-gradient(90deg,#5caa9a,#b2e7d8);box-shadow:0 0 12px #8fd6c555;transition:width .25s}#progressText{font:10px "DM Mono",monospace;margin-top:6px}
-.stationbar{display:flex;gap:5px;flex-wrap:wrap;margin:14px 0 17px;padding:5px;background:#0e1921;border:1px solid #263a45;border-radius:8px}.stationbar button{flex:1;min-width:90px;background:transparent;border-color:transparent;color:#91a5af;padding:9px 8px;font-size:12px}.stationbar button.on{background:linear-gradient(180deg,#2a4a4d,#203b40);border-color:#47766f;color:#c7eee2;box-shadow:inset 0 1px #ffffff0b}
-#stationTitle{font-size:13px;margin:0 0 10px;color:#e2ebef;letter-spacing:.06em}#pressure{font:10px "DM Mono",monospace}.workspace{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.workcard{border:1px solid #2c414d;border-radius:7px;background:linear-gradient(145deg,#182a35,#13222c);padding:12px;min-height:146px;display:flex;flex-direction:column;align-items:stretch}.workcard .label{font-size:9px;color:#7fa7aa}.workcard h3{margin:7px 0 6px;font-size:13px;line-height:1.45;color:#e4edf0}.workcard p{margin:0;color:#8fa3ad;font-size:11px;line-height:1.6;flex:1}.workcard button{margin-top:12px;width:100%;text-align:left;font-size:11px;padding:8px 9px;background:#20343e}
-.status{padding:11px 13px;background:#12232b;border:1px solid #2d4751;border-left:3px solid #5dafa0;border-radius:5px;margin-top:10px;min-height:43px;color:#b8c9cf;font-size:12px}
-#events{display:grid;gap:7px}.event,.patientrow{padding:10px 11px;border:1px solid #2a3e49;border-radius:7px;background:linear-gradient(120deg,#172833,#13212b)}.event.urgent{border-color:#925a5d;background:linear-gradient(120deg,#33252b,#1c232c)}.event .row{gap:8px}.event b{font-size:12px}.event p{margin:5px 0 9px;color:#9fb0b8;font-size:11px;line-height:1.65}.tag{font:9px "DM Mono",monospace;letter-spacing:.04em;border-radius:3px;padding:3px 6px;background:#51432c;color:#f1d69b}.tag.red{background:#572f35;color:#ffc4c4}.eventActions{display:flex;gap:6px}.eventActions button{flex:1;font-size:11px;padding:7px 8px}#eventCount{font:10px "DM Mono",monospace}
-aside.panel>.row:first-child{padding-bottom:10px;border-bottom:1px solid #2a3b46;margin-bottom:8px}#queue{display:grid;gap:6px}.patientrow{padding:9px 10px}.patientrow b{font-size:11px}.patientrow .muted{font-size:10px}.patientrow .row{margin-bottom:3px}#census{color:#eac98a;border-color:#66553a}
-aside .heading{margin-top:18px;margin-bottom:9px;padding-bottom:8px;border-bottom:1px solid #293b46}aside .heading:first-of-type{margin-top:0}.timeline{display:grid;gap:5px;max-height:300px;overflow:auto;padding-right:3px}.log{font-size:11px;border-left:2px solid #456c72;padding:7px 9px;background:#14232c;color:#afc0c7;border-radius:0 5px 5px 0}.log time{display:block;font:9px "DM Mono",monospace;color:#718a96;margin-bottom:2px}aside .row button{flex:1;font-size:11px}aside p{line-height:1.65}.foot{font-size:10px;color:#667d89;margin:12px 3px;letter-spacing:.02em}
-@media(max-width:980px){.layout{grid-template-columns:minmax(0,1.3fr) minmax(260px,.8fr)}.workspace{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){.app{padding:10px}.layout{grid-template-columns:1fr}.room{grid-template-columns:1fr}.workspace{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:12px}.brand{font-size:23px}}
-@media(max-width:460px){.top{align-items:flex-start}.top .row{justify-content:flex-start}.workspace{grid-template-columns:1fr}.stationbar button{min-width:calc(50% - 5px)}.room{padding:10px}}
-</style><style id="ward-scene-redesign">
-/* Ward-scene redesign: less admin dashboard, more in-shift environment */
-:root{--bg:#101619;--panel:#192326;--line:#3b4b4d;--ink:#f2eee4;--muted:#a0aaa5;--teal:#d7bd82}
-body{background:#101619;color:var(--ink)}
-button{border-radius:3px;background:#293639;border-color:#536061}
-button:hover{background:#3b4b4d;border-color:var(--teal)}
-.app{max-width:1500px;padding:14px 20px}
-.top{border-bottom-color:#3b484a}
-.top>div:first-child{padding-left:13px;border-left:3px solid var(--teal)}
-.brand{font-size:23px;letter-spacing:.06em}
-.chip{border-radius:3px;background:#1a2528;border-color:#4b5b5d}
-#clock{color:var(--teal)}#pause{background:var(--teal);color:#202522;border-color:var(--teal)}
-.layout{grid-template-columns:minmax(0,1fr) 310px;gap:14px}
-.panel{background:#192326;border:1px solid #3b4b4d;border-radius:4px;padding:13px;box-shadow:0 12px 32px #0002}
-.heading{letter-spacing:.14em;color:#d8d7cb}
-.scene{border-color:#586463;border-radius:3px;background:#1c292c}
-.sceneTop{background:#2b3839;border-color:#596464}
-.room{min-height:285px;grid-template-columns:minmax(0,1fr) 270px;gap:12px;background:linear-gradient(180deg,#3a4846,#293936 42%,#202e30);overflow:hidden}
-.room:before{opacity:.3;background:linear-gradient(90deg,transparent 0 63%,#a5aaa1 63.2%,transparent 63.7%),repeating-linear-gradient(0deg,transparent 0 42px,#9ca9a0 43px,#9ca9a0 44px,transparent 45px);mask-image:linear-gradient(180deg,#000,transparent 80%)}
-.room:after{content:"";position:absolute;left:0;right:0;bottom:0;height:34px;background:repeating-linear-gradient(90deg,#141e20 0 54px,#263538 55px 57px);opacity:.55;pointer-events:none}
-.area{z-index:1;background:#182326dd;border-color:#667370;border-radius:3px}
-.bed{height:145px;gap:20px}.person:after{width:160px;height:52px;border-radius:3px}.person:before{height:60px}
-.vital{border-radius:2px;background:#111a1c;border-color:#4b5b5b;color:#d7dfd8}
-#focus{font-size:18px}#focusText{min-height:64px;color:#c1c9c2}
-.stationbar{gap:0;background:#121b1d;border-color:#3b4b4d;border-radius:3px}
-.stationbar button{background:transparent;border:0;border-right:1px solid #3b4b4d;border-radius:0;color:#aab5b0}
-.stationbar button.on{background:#3b4a46;color:#f4e5bc;box-shadow:inset 0 -3px var(--teal)}
-.workspace{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
-.workcard{background:#202e30;border-color:#465555;border-radius:3px;min-height:130px;padding:10px 11px}
-.workcard .label{color:#c7b47d}.workcard h3{font-size:12px}.workcard p{color:#aab7b0}
-.workcard button{background:#344344;border-color:#586866;border-radius:3px}
-.status{background:#263535;border-color:#53615c;border-left-color:var(--teal);border-radius:2px;color:#e0e4db}
-.event,.patientrow{background:#202d30;border-color:#465454;border-radius:3px}
-.event.urgent{background:#34292a;border-color:#a45d55}
-.log{background:#202c2f;border-left-color:#9b8b5e;border-radius:0;color:#c6cec5}
-aside .heading{border-bottom-color:#3b4b4d}
-@media(max-width:980px){.layout{grid-template-columns:minmax(0,1fr) 275px}.room{grid-template-columns:minmax(0,1fr) 235px}}
-@media(max-width:760px){.layout{grid-template-columns:1fr}.room{grid-template-columns:1fr;min-height:0}.bed{height:105px}.room:before{display:none}}
-@media(max-width:460px){.workspace{grid-template-columns:1fr}.workcard{min-height:115px}}
-</style><style id="full-scene-layout">
-/* Full-scene composition: the ward is the game, not a dashboard */
-body{background:#0d1214;color:#eee9dc;font-size:13px}
-.app{max-width:none;width:100%;padding:10px 14px 16px}
-.top{max-width:1500px;margin:0 auto 10px;padding:0 0 9px;border-bottom:1px solid #303b3d}
-.brand{font-size:20px;letter-spacing:.09em}
-.layout{max-width:1500px;margin:0 auto;grid-template-columns:minmax(0,1fr) 270px;gap:10px}
-.panel{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
-.layout>section.panel{display:flex;flex-direction:column}
-.layout>section.panel>.row:first-child{padding:0 2px 7px}
-.heading{margin-bottom:5px;color:#b8c0b8;font-size:10px;letter-spacing:.18em}
-.scene{border:1px solid #485553;border-radius:2px;background:#202b2c;box-shadow:0 8px 28px #0005}
-.sceneTop{padding:7px 11px;background:#172022;border-bottom:1px solid #485553}
-.sceneTop b{font-size:10px;letter-spacing:.15em;color:#d7d7c9}
-.room{min-height:350px;grid-template-columns:minmax(0,1fr) 245px;padding:18px;gap:14px;background:linear-gradient(180deg,#52605b 0%,#3a4946 46%,#293634 100%);border-bottom:1px solid #65716a}
-.room:before{opacity:.55;background:linear-gradient(90deg,transparent 0 18%,#a7b2a6 18.2%,transparent 18.6% 61%,#a7b2a6 61.2%,transparent 61.6%),linear-gradient(180deg,#8b9b8e 0 2px,transparent 2px 28%,#a7b2a6 28.2%,transparent 28.5%),repeating-linear-gradient(90deg,transparent 0 100px,#8a9a90 101px,#8a9a90 102px,transparent 103px);mask-image:linear-gradient(180deg,#000,transparent 90%)}
-.room:after{height:48px;opacity:.8;background:repeating-linear-gradient(90deg,#1a2425 0 78px,#394744 79px 81px)}
-.area{background:#172224e8;border:1px solid #718078;border-radius:1px;box-shadow:0 9px 20px #0004;padding:12px}
-.room>.area:first-child{background:linear-gradient(180deg,#172224e8,#263433d9);display:flex;flex-direction:column;justify-content:space-between}
-.room>.area:nth-child(2){align-self:stretch;background:#182325f0;border-color:#5d6b65}
-.label{color:#c1c5b6;font-size:9px;letter-spacing:.16em}
-.bed{height:180px;justify-content:flex-start;gap:22px;padding:0 10px}
-.person{width:45px;height:45px}
-.person:after{left:28px;top:9px;width:min(290px,34vw);height:66px;border-radius:2px;background:linear-gradient(180deg,#f1eee4 0%,#c8d2ca 52%,#879b94 100%);box-shadow:0 8px 0 #657871,0 12px 15px #0005}
-.person:before{left:25px;top:3px;width:24px;height:77px;border-radius:2px;background:#d8dfd7;box-shadow:5px 0 #9eafa7}
-.person.empty:after{background:linear-gradient(180deg,#879a91,#53655e);box-shadow:0 8px 0 #394a45,0 12px 15px #0005}
-.person.empty:before{background:#667a71;box-shadow:5px 0 #475a52}
-.area h3{font-size:15px;letter-spacing:.02em}
-.vital{background:#0d1718;border-color:#53635c;border-radius:1px;color:#d6dbce}
-#focus{font-size:20px;line-height:1.4;color:#f1e9d7}
-#focusText{font-size:12px;line-height:1.8;color:#c1c9c0;min-height:70px}
-.bar{background:#3a4945}.bar span{background:#d7bd82}
-#progressText{color:#c2c6b9}
-.stationbar{margin:9px 0 11px;background:#151d1f;border:1px solid #394746;border-radius:1px}
-.stationbar button{padding:10px 7px;font-size:11px;color:#aab3ab;border-right:1px solid #394746}
-.stationbar button.on{background:#3a4944;color:#f4e4bb;box-shadow:inset 0 -2px #d7bd82}
-#stationTitle{font-size:11px;letter-spacing:.15em}
-.workspace{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-.workcard{min-height:112px;padding:10px;background:#192426;border:1px solid #394847;border-radius:1px}
-.workcard .label{color:#b8a36f}
-.workcard h3{font-size:12px;color:#e8e4d9}
-.workcard p{color:#aeb8b0}
-.workcard button{margin-top:8px;padding:7px 8px;background:#2b3938;border:1px solid #53615b;border-radius:1px}
-.status{margin-top:7px;padding:9px 11px;background:#263431;border:1px solid #56665d;border-left:3px solid #d7bd82;border-radius:1px;color:#e2e2d6}
-#events{grid-template-columns:1fr;gap:6px}
-.event,.patientrow{background:#192426;border:1px solid #394847;border-radius:1px}
-.event.urgent{background:#342525;border-color:#98615a}
-.event b{font-size:11px}.event p{font-size:11px;color:#c2c8bf}
-.eventActions button{border-radius:1px;background:#2b3938}
-aside.panel{background:#151e20;border:1px solid #3b4947;padding:11px;align-self:stretch}
-aside.panel>.row:first-child{padding-bottom:8px;border-bottom:1px solid #3b4947;margin-bottom:8px}
-aside .heading{font-size:10px;letter-spacing:.15em}
-#queue{gap:5px}
-.patientrow{padding:8px}
-.timeline{max-height:245px}
-.log{background:#202c2c;border-left-color:#b9a36d;padding:7px 8px;font-size:10px}
-.log time{color:#a8b1a8}
-aside .row button{padding:8px 7px}
-aside p{font-size:11px;color:#9eaaa2}
-.foot{max-width:1500px;margin:8px auto;color:#687772}
-@media(max-width:980px){.layout{grid-template-columns:minmax(0,1fr) 240px}.room{grid-template-columns:minmax(0,1fr) 220px}.workspace{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){.app{padding:8px}.layout{grid-template-columns:1fr}.room{grid-template-columns:1fr;min-height:0;padding:10px}.bed{height:120px}.person:after{width:min(260px,55vw)}aside.panel{margin-top:8px}.workspace{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:460px){.workspace{grid-template-columns:1fr}.stationbar button{min-width:calc(50% - 5px)}.room{padding:8px}.bed{height:100px}}
-</style></head><body><main class="app">
-<header class="top"><div><div class="muted">急診部｜輪班現場</div><div class="brand">急診值班</div></div><div class="row"><span class="chip" id="clock">週一 08:00</span><span class="chip" id="shift">早班</span><button id="pause">開始值班</button><button id="speed">×1</button></div></header>
-<div class="layout"><section class="panel">
-<div class="row"><h2 class="heading">急診現場</h2><span class="chip" id="duty">交班中</span></div>
-<div class="scene"><div class="sceneTop"><b id="sceneTitle">護理站</b><span class="muted" id="sceneMeta">等待交班</span></div><div class="room">
-<div class="area"><div class="label">處置床｜自動分流派診</div><div class="bed"><div class="person empty" id="person"></div><div><b id="patientName">尚無病人</b><div class="muted" id="patientComplaint">開始值班後由系統派診</div></div></div><div class="vitals" id="vitals"></div></div>
-<div class="area"><div class="label">工作焦點</div><h3 id="focus">交班摘要</h3><p class="muted" id="focusText">急診持續運作。新病人、護理師通報與檢查回報會交錯出現。</p><div class="bar" style="margin-top:12px"><span id="progress" style="width:0%"></span></div><div class="muted" id="progressText">尚未開始</div></div></div></div>
-<div class="stationbar" id="stations"><button class="on" data-station="床邊">床邊評估</button><button data-station="檢查">檢查區</button><button data-station="醫囑">醫囑工作台</button><button data-station="病歷">病歷／交班</button></div>
-<div class="row"><h3 class="heading" id="stationTitle">床邊評估</h3><span class="muted" id="pressure">等待派診</span></div><div class="workspace" id="workspace"></div><div class="status" id="status">完成交班後開始值班。</div>
-<div class="row" style="margin-top:14px"><h3 class="heading">待處理通報</h3><span class="muted" id="eventCount">0 則</span></div><div class="list" id="events"></div>
-</section><aside class="panel">
-<div class="row"><h2 class="heading">護理站／候診區</h2><span class="chip" id="census">候診 0</span></div><div class="muted">系統自動依分流安排病人；你選擇要先回應哪一項工作。</div><div class="list" id="queue" style="margin-top:8px"></div>
-<h3 class="heading" style="margin-top:15px">同事通報紀錄</h3><div class="timeline" id="feed"></div>
-<h3 class="heading" style="margin-top:15px">班表／支援</h3><div class="row"><button id="swap">申請換班</button><button id="leave">請假</button></div><p class="muted" id="roster">本週早班，下週晚班，再下週夜班。非當班由其他醫師接手。</p>
-<p class="muted">虛構情境遊戲，非醫療訓練或臨床指引。</p></aside></div>
-<p class="foot">玩法：在不同工作區完成照護流程，通報與候診會隨時間推進。急診不會因你離開畫面而停止。</p></main>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap');
+:root{--paper:#e9e3d5;--muted:#a9b3ad;--line:#52605a;--gold:#d9bc7d;--red:#d96f65}
+*{box-sizing:border-box}body{margin:0;background:#101718;color:var(--paper);font:13px/1.55 "Noto Sans TC",sans-serif}
+button{font:inherit;color:inherit;background:#2d3a37;border:1px solid #59665e;border-radius:2px;padding:9px 13px;cursor:pointer}button:hover{background:#40514a;border-color:var(--gold)}button:disabled{opacity:.4}
+.app{min-height:100vh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:9px;padding:10px 14px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #3a4641;padding:0 2px 9px}
+.brand{font-size:18px;font-weight:800;letter-spacing:.12em}.sub{font-size:10px;color:#8c9991;letter-spacing:.12em}.hud{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.readout{border:1px solid #45534d;background:#192222;padding:6px 10px;font:11px monospace;color:#d4d9cf}
+#start{background:var(--gold);color:#222820;border-color:var(--gold);font-weight:700}
+main{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 265px;gap:10px}
+.stage{position:relative;min-height:590px;overflow:hidden;border:1px solid #68766c;background:#303d39;isolation:isolate}
+.stage:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,#596761 0%,#43534d 49%,#273532 100%)}
+.stage:after{content:"";position:absolute;left:0;right:0;bottom:0;height:27%;z-index:-1;background:repeating-linear-gradient(90deg,#202b29 0 86px,#3c4943 87px 89px),linear-gradient(#263330,#263330);border-top:5px solid #63716a}
+.window{position:absolute;left:5%;top:6%;width:34%;height:22%;border:8px solid #34423d;background:linear-gradient(135deg,#91a6a0,#526e6a);box-shadow:inset 0 0 0 2px #a8b7ac}
+.window:before,.window:after{content:"";position:absolute;background:#34423d}.window:before{width:5px;top:0;bottom:0;left:50%}.window:after{height:5px;left:0;right:0;top:50%}
+.room-sign{position:absolute;right:4%;top:7%;font-size:10px;letter-spacing:.18em;color:#d5d8cb;background:#1c2927b8;padding:7px 11px;border:1px solid #6d7a70}
+.hotspot{position:absolute;cursor:pointer;outline:0}.hotspot:focus-visible{outline:2px solid var(--gold)}
+.hotspot .hint{position:absolute;white-space:nowrap;left:50%;top:-27px;transform:translateX(-50%);background:#121a19;color:#e9e3d5;border:1px solid #68776c;padding:3px 7px;font-size:10px;opacity:0;pointer-events:none;transition:.12s}
+.hotspot:hover .hint,.hotspot:focus .hint{opacity:1}
+.bed-zone{left:7%;top:34%;width:42%;height:34%}
+.bed-frame{position:absolute;left:0;right:0;top:21%;height:58%;background:#b9c4bc;border:7px solid #66766e;box-shadow:0 12px 0 #1c2926,0 19px 20px #0004;transform:skewY(-1deg)}
+.bed-frame:before{content:"";position:absolute;left:3%;top:-20%;width:22%;height:130%;background:#e1e4da;border:2px solid #84958a}
+.patient{position:absolute;left:13%;top:13%;width:27%;height:24%;border-radius:50%;background:#c89e7e;box-shadow:0 0 0 5px #d4b69b26}
+.patient:after{content:"";position:absolute;left:72%;top:35%;width:220%;height:80%;background:#dfe3d9;border-radius:3px;box-shadow:0 4px 0 #8a9b91}
+.patient:before{content:"";position:absolute;left:92%;top:18%;width:25%;height:115%;background:#b6c4bb;z-index:1;border-radius:2px}
+.bed-label{position:absolute;bottom:0;left:0;background:#1c2927d9;border:1px solid #637269;padding:5px 8px;font-size:10px}
+.monitor{right:8%;top:37%;width:17%;height:24%;background:#182321;border:6px solid #5d6c63;box-shadow:0 9px 0 #293532}
+.monitor-screen{position:absolute;inset:9%;background:#14201d;border:1px solid #748277;overflow:hidden}
+.monitor-screen:after{content:"";position:absolute;inset:15% 5%;background:linear-gradient(155deg,transparent 0 18%,#8bbba0 19% 20%,transparent 21% 32%,#8bbba0 33% 34%,transparent 35% 48%,#8bbba0 49% 50%,transparent 51%);opacity:.9}
+.monitor-stand{position:absolute;left:43%;right:43%;bottom:-28%;height:28%;background:#66756c}
+.nurse-desk{left:56%;bottom:10%;width:33%;height:21%;background:#705d48;border:5px solid #9a8669;box-shadow:0 12px 0 #1c2926}
+.nurse-desk:before{content:"";position:absolute;left:-4%;right:-4%;top:-13%;height:18%;background:#b49b76;border:2px solid #c4ad87}
+.desk-screen{position:absolute;left:14%;top:-53%;width:34%;height:52%;background:#172321;border:5px solid #67776b}
+.desk-screen:after{content:"";position:absolute;inset:12%;background:linear-gradient(135deg,#456d60,#1c3830)}
+.chair{position:absolute;right:7%;bottom:-19%;width:26%;height:25%;background:#34413b;border:4px solid #68776b;border-radius:4px}
+.player{position:absolute;left:47%;top:58%;width:27px;height:42px;z-index:5;transition:left .12s,top .12s;pointer-events:none}
+.player:before{content:"";position:absolute;left:5px;top:0;width:18px;height:18px;border-radius:50%;background:#d6b092;border:2px solid #f0d7b9}
+.player:after{content:"";position:absolute;left:2px;top:19px;width:24px;height:23px;background:#d5d8cc;border:2px solid #829188;border-radius:3px}
+.player-label{position:absolute;top:-17px;left:-9px;white-space:nowrap;font-size:9px;color:#f2e9d4;background:#172321;padding:1px 5px}
+.phone-zone{right:3%;top:18%;width:15%;height:13%}.phone{position:absolute;inset:0;background:#283632;border:3px solid #718076;box-shadow:0 5px 0 #1c2926}.phone:after{content:"☎";position:absolute;inset:0;display:grid;place-items:center;font-size:26px;color:#d6bd82}
+.door-zone{left:0;bottom:9%;width:12%;height:39%}.door{position:absolute;inset:0 0 0 10%;background:#5e5140;border:5px solid #8e7b60;box-shadow:inset 0 0 0 2px #3b3730}.door:after{content:"";position:absolute;right:12%;top:50%;width:5px;height:5px;border-radius:50%;background:#d8c18d}
+.side{background:#172120;border:1px solid #46534d;padding:11px;display:flex;flex-direction:column;min-height:0}
+.side-title{font-size:10px;letter-spacing:.16em;color:#b6c0b6;border-bottom:1px solid #3c4943;padding-bottom:8px;margin:0 0 8px}
+.case-title{font-size:15px;font-weight:700;margin:0 0 3px}.case-copy{font-size:11px;color:#aeb8ae;line-height:1.7;margin:0 0 9px}
+.case-metrics{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 12px}.metric{font:10px monospace;padding:4px 6px;background:#101918;border:1px solid #425049}
+.side-actions{display:grid;gap:6px}.side-actions button{text-align:left;font-size:11px;padding:8px}.side-actions button.active{border-color:var(--gold);color:#f3dfad}
+.loglist{display:grid;gap:5px;overflow:auto;min-height:0}.log{padding:6px 8px;background:#202d29;border-left:2px solid #a18f62;font-size:10px;color:#b8c1b7}.log time{display:block;font:9px monospace;color:#7f8c82;margin-bottom:2px}
+.bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid #34413c;padding-top:8px}.key-help{font-size:10px;color:#8d9990}.key{display:inline-block;border:1px solid #56645b;background:#1b2622;padding:2px 6px;margin:0 3px;color:#d8d8ca;font:10px monospace}
+#overlay{position:fixed;inset:0;background:#060a09b8;z-index:20;display:none;align-items:center;justify-content:center;padding:16px}
+#overlay.show{display:flex}.dialog{width:min(540px,100%);background:#1a2622;border:1px solid #7d8978;box-shadow:0 25px 90px #000b;padding:20px}.dialog .eyebrow{font:10px monospace;letter-spacing:.16em;color:var(--gold)}.dialog h2{font-size:21px;margin:7px 0}.dialog p{color:#c0c8bd;line-height:1.8}.dialog-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}.dialog-actions button{flex:1;min-width:140px}
+.toast{position:absolute;left:50%;bottom:7%;transform:translateX(-50%);z-index:8;background:#111a18ee;border:1px solid #9a9879;padding:8px 14px;max-width:90%;font-size:12px;text-align:center;display:none}.toast.show{display:block}
+@media(max-width:900px){main{grid-template-columns:minmax(0,1fr) 230px}.stage{min-height:500px}.room-sign{right:2%}.monitor{right:5%}}
+@media(max-width:680px){.app{padding:8px}.top{align-items:flex-start}.brand{font-size:15px}.hud{justify-content:flex-end}.readout{font-size:10px;padding:5px 7px}main{grid-template-columns:1fr}.stage{min-height:65vh}.side{max-height:360px}.room-sign{font-size:8px}.bed-zone{left:4%;width:50%}.monitor{right:4%;width:19%}.nurse-desk{left:51%;width:40%}.player{transform:scale(.85);transform-origin:top left}}
+</style></head><body>
+<div class="app">
+<header><div><div class="sub">EMERGENCY DEPARTMENT · NIGHT SHIFT</div><div class="brand">急診值班</div></div><div class="hud"><span class="readout" id="clock">週一 08:00</span><span class="readout" id="shift">早班</span><span class="readout" id="duty">交班中</span><button id="start">開始值班</button><button id="pause" hidden>暫停</button><button id="speed">×1</button></div></header>
+<main><section class="stage" id="stage" aria-label="急診病房場景">
+<div class="window"></div><div class="room-sign">急診觀察區 · ER-01</div>
+<div class="hotspot bed-zone" data-place="bed" tabindex="0" role="button" aria-label="處置床"><span class="hint">E｜查看病人</span><div class="bed-frame"></div><div class="patient"></div><div class="bed-label" id="bedlabel">處置床 ER-01</div></div>
+<div class="hotspot monitor" data-place="monitor" tabindex="0" role="button" aria-label="生命徵象監視器"><span class="hint">E｜查看監視器</span><div class="monitor-screen"></div><div class="monitor-stand"></div></div>
+<div class="hotspot nurse-desk" data-place="desk" tabindex="0" role="button" aria-label="護理站"><span class="hint">E｜護理站工作單</span><div class="desk-screen"></div><div class="chair"></div></div>
+<div class="hotspot phone-zone" data-place="phone" tabindex="0" role="button" aria-label="電話"><span class="hint">E｜接電話</span><div class="phone"></div></div>
+<div class="hotspot door-zone" data-place="door" tabindex="0" role="button" aria-label="出口"><span class="hint">E｜離開床邊</span><div class="door"></div></div>
+<div class="player" id="player"><span class="player-label">你</span></div><div class="toast" id="toast"></div>
+</section>
+<aside class="side"><h2 class="side-title" id="sideTitle">當前病人</h2><div id="case"><p class="case-copy">先完成交班，開始值班後會自動派診。</p></div><h2 class="side-title" style="margin-top:12px">護理師／電話紀錄</h2><div class="loglist" id="logs"></div><div style="margin-top:10px;display:flex;gap:6px"><button id="handoff" style="flex:1">交班</button><button id="leave" style="flex:1">請假</button></div></aside></main>
+<footer class="bottom"><div class="key-help"><span class="key">WASD</span>/<span class="key">↑↓←→</span>移動　<span class="key">E</span>互動　<span class="key">Esc</span>離開對話　<span class="key">M</span>全景　<span class="key">P</span>暫停</div><div class="key-help" id="hintline">走到病床、電話或護理站附近，按 E 互動</div></footer>
+</div>
+<div id="overlay"><div class="dialog"><div class="eyebrow" id="dialogTag">WARD CALL</div><h2 id="dialogTitle">護理師來電</h2><p id="dialogText"></p><div class="dialog-actions" id="dialogActions"></div></div></div>
 <script>
-(()=>{const $=id=>document.getElementById(id);const days=['週一','週二','週三','週四','週五','週六','週日'],shifts=['早班','晚班','夜班'];let s={day:1,week:1,min:480,run:false,speed:1,started:false,shift:0,leave:false,station:'床邊',patient:null,queue:[],events:[],log:[],seq:0,done:0,tick:0};
-const templates=[
-{complaint:'胸悶、呼吸急促',age:58,triage:'緊急',v:['HR 116','BP 146/92','SpO₂ 92%'],needs:['完成床邊評估','查看心電圖回報','確認處置計畫','完成病歷與交班'],notes:['病人表示胸口悶、呼吸急促。護理師等候初步評估。','心電圖已回報，護理師提醒需查看結果。','護理師再次通報病人冒冷汗，狀況有變。','整理病歷與後續去向，交由接班團隊。']},
-{complaint:'發燒、咳嗽',age:67,triage:'優先',v:['HR 108','BP 132/84','SpO₂ 94%'],needs:['評估呼吸與生命徵象','查看抽血／影像結果','更新照護計畫','完成病歷與交班'],notes:['病人畏寒、咳嗽，血氧偏低。','胸部影像與抽血結果已回報。','病人仍感到喘，護理師請你重新評估。','確認後續觀察與去向。']},
-{complaint:'腹痛、噁心',age:34,triage:'一般',v:['HR 94','BP 128/82','SpO₂ 98%'],needs:['完成問診與評估','查看抽血結果','重新評估疼痛','完成病歷與交班'],notes:['病人腹痛、噁心，護理師詢問是否安排檢查。','抽血結果已回報，病人仍有腹痛。','病人表示疼痛位置改變。','確認後續安排並完成交班。']},
-{complaint:'手腕受傷、腫痛',age:22,triage:'一般',v:['HR 88','BP 122/76','SpO₂ 99%'],needs:['評估受傷狀況','查看影像結果','確認後續處置','完成病歷與交班'],notes:['病人跌倒後手腕腫痛，活動受限。','影像檢查已回報。','病人詢問後續安排。','完成病歷並交由接班團隊。']}
-];
-const stationCopy={
-'床邊':{title:'床邊評估',items:[['問診與初評','向病人確認主訴、症狀變化與目前狀況。','評估'],['查看生命徵象','核對護理師回報的生命徵象。','生命徵象'],['回應護理師','確認護理師目前觀察到的變化。','通報']]},
-'檢查':{title:'檢查區',items:[['查看檢查狀態','確認已安排及尚未回報的檢查。','檢查狀態'],['查看已回報結果','讀取目前已完成的檢查回報。','結果'],['追問延遲結果','請檢查區回報尚未完成的項目。','追問']]},
-'醫囑':{title:'醫囑工作台',items:[['建立照護計畫','記錄目前評估後的下一步安排。','計畫'],['更新醫囑','依情境更新照護指示；此為虛構遊戲操作。','醫囑'],['通知護理師','將已確認的計畫交代給照護團隊。','通知']]},
-'病歷':{title:'病歷／交班',items:[['記錄病歷','整理主訴、評估與已完成的處置。','病歷'],['安排後續去向','確認留觀、住院評估或離院等遊戲情境去向。','去向'],['完成交班','將已完成的工作交給接班團隊。','交班']]}
-};
-function stamp(){return days[(s.day-1)%7]+' '+String(Math.floor(s.min/60)%24).padStart(2,'0')+':'+String(s.min%60).padStart(2,'0')}
-function log(msg){s.log.unshift({t:stamp(),msg});s.log=s.log.slice(0,22);drawLog()}
-function event(kind,title,body,choices,urgent=false){s.events.push({id:++s.seq,kind,title,body,choices,urgent});s.events.sort((a,b)=>Number(b.urgent)-Number(a.urgent));log(title+'：'+body)}
-function spawn(){let t=templates[(s.seq+s.queue.length+s.done)%templates.length];let n=s.seq+1;let p={id:n,name:['林小姐','陳先生','王先生','張先生','吳先生'][n%5],...t,step:0,wait:0,checked:{},work:{},done:false};s.queue.push(p);s.queue.sort((a,b)=>({緊急:0,優先:1,一般:2}[a.triage]-({緊急:0,優先:1,一般:2}[b.triage])));event('派診','新病人到院',p.name+'｜'+p.complaint+'。已由系統分流，候診區新增病人。',['查看候診清單','請護理師確認'],p.triage==='緊急')}
-function autoAssign(){if(!s.started||s.leave||s.patient||!s.queue.length)return;s.patient=s.queue.shift();s.patient.wait=0;log('系統派診：'+s.patient.name+'已安排至處置床。');}
-function currentTask(){return s.patient?.needs[s.patient.step]||'無待完成項目'}
-function doWork(kind){let p=s.patient;if(!p){say('目前沒有已派診病人；候診區仍會依分流接收新病人。');return}let expected=['評估','結果','計畫','病歷'];let step=p.step;let success=false;let msg='';
-if(kind==='評估'||kind==='生命徵象'||kind==='通報'){if(step===0){p.checked.assess=true;p.step=1;success=true;msg='完成初步評估，已更新病人狀況。';}else{msg='已核對床邊資料，仍有未完成工作：'+currentTask();}}
-else if(kind==='檢查狀態'||kind==='追問'){p.checked.test=true;success=true;msg=kind==='追問'?'已向檢查區追問，等待回報。':'已確認檢查進度。';if(step===1){p.step=2;msg='檢查狀態已確認，進入結果與照護計畫階段。';}}
-else if(kind==='結果'){if(step>=1){p.checked.result=true;p.step=Math.max(p.step,2);success=true;msg='已查看檢查回報並更新目前工作焦點。';}else msg='先完成床邊評估，才能進一步查看這個病例的結果。';}
-else if(kind==='計畫'||kind==='醫囑'||kind==='通知'){if(step>=2){p.checked.plan=true;p.step=3;success=true;msg='照護計畫已更新並通知護理師。';}else msg='先完成評估與檢查回報，再更新照護計畫。';}
-else if(kind==='病歷'){if(step>=3){p.checked.chart=true;success=true;msg='病歷已整理。可安排後續去向並交班。';}else msg='目前尚有照護流程未完成，先處理：'+currentTask();if(success)p.step=4;}
-else if(kind==='去向'){if(step>=3){p.checked.dispo=true;p.step=4;success=true;msg='已記錄後續去向。完成病歷後即可交班。';}else msg='先完成目前照護計畫。';}
-else if(kind==='交班'){if(step>=4){log('交班完成：'+p.name+'由接班團隊接手。');s.patient=null;s.done++;success=true;msg='病人已交班。系統會繼續自動派診。';autoAssign();}else msg='交班前仍有必要項目未完成：'+currentTask();}
-if(success&&s.patient){s.patient.wait=Math.max(0,s.patient.wait-3);s.min+=3;log(p.name+'｜'+msg)}else if(!success)log('工作站回應：'+msg);say(msg);render()}
-function say(t){$('status').textContent=t}
-function respond(id,i){let e=s.events.find(x=>x.id===id);if(!e)return;s.events=s.events.filter(x=>x.id!==id);if(e.kind==='派診'){if(i===0){s.station='床邊';$('status').textContent='已查看候診清單，系統依分流安排病人。';autoAssign()}else{event('護理師','護理師回覆','已收到，會持續觀察候診病人。',['收到']);}}else if(e.kind==='護理師'){if(i===0){if(s.patient)s.patient.wait=Math.max(0,s.patient.wait-4);log('已回應護理師通報。')}else{if(s.patient)s.patient.wait+=12;log('已延後回應護理師通報。')}}else if(e.kind==='檢查'){if(i===0){if(s.patient){s.patient.checked.result=true;s.patient.step=Math.max(2,s.patient.step)}log('已查看檢查結果回報。')}else log('已延後查看檢查結果。')}else if(e.kind==='急呼'){if(i===0){s.station='床邊';if(s.patient)s.patient.wait=Math.max(0,s.patient.wait-8);log('已立即回到床邊回應急呼。')}else{if(s.patient)s.patient.wait+=20;log('延後急呼，病人等待時間增加。')}}render()}
-function render(){let p=s.patient;$('clock').textContent='第 '+s.week+' 週｜'+stamp();$('shift').textContent=shifts[s.shift];$('duty').textContent=!s.started?'交班中':s.leave?'請假中':s.run?'值班中':'時間暫停';$('pause').textContent=!s.started?'開始值班':s.run?'暫停時間':'繼續時間';$('speed').textContent='×'+s.speed;$('sceneTitle').textContent=s.station==='床邊'?'處置床｜床邊評估':s.station==='檢查'?'檢查區':s.station==='醫囑'?'醫囑工作台':'病歷工作站';$('sceneMeta').textContent=p?'床位 ER-'+String(p.id).padStart(2,'0'):'等待系統派診';$('patientName').textContent=p?p.name+'｜'+p.age+'歲':'尚無病人';$('patientComplaint').textContent=p?p.complaint+'｜分流 '+p.triage:'開始值班後由系統自動派診';$('person').classList.toggle('empty',!p);$('vitals').innerHTML=p?p.v.map(v=>'<span class="vital">'+v+'</span>').join(''):'';$('focus').textContent=p?currentTask():'交班摘要';$('focusText').textContent=p?p.notes[Math.min(p.step,3)]:'急診持續運作。新病人、護理師通報與檢查回報會交錯出現。';$('progress').style.width=(p?Math.min(100,p.step/4*100):0)+'%';$('progressText').textContent=p?'照護流程 '+Math.min(p.step,4)+'／4':'尚未開始';$('pressure').textContent=p?'病人等待 '+p.wait+' 分鐘':'無當前病人';$('stationTitle').textContent=stationCopy[s.station].title;
-document.querySelectorAll('[data-station]').forEach(b=>b.classList.toggle('on',b.dataset.station===s.station));
-$('workspace').innerHTML=stationCopy[s.station].items.map(([title,desc,kind])=>'<div class="workcard"><div class="label">'+s.station+'</div><h3>'+title+'</h3><p>'+desc+'</p><button data-work="'+kind+'">開啟工作項目　›</button></div>').join('');document.querySelectorAll('[data-work]').forEach(b=>b.onclick=()=>doWork(b.dataset.work));
-$('events').innerHTML=s.events.slice(0,5).map(e=>'<div class="event '+(e.urgent?'urgent':'')+'"><div class="row"><b>'+e.title+'</b><span class="tag '+(e.urgent?'red':'')+'">'+e.kind+'</span></div><p>'+e.body+'</p><div class="eventActions">'+e.choices.map((c,i)=>'<button data-event="'+e.id+'" data-i="'+i+'">'+c+'</button>').join('')+'</div></div>').join('')||'<div class="muted">目前沒有待回應通報。</div>';document.querySelectorAll('[data-event]').forEach(b=>b.onclick=()=>respond(+b.dataset.event,+b.dataset.i));$('eventCount').textContent=s.events.length+' 則';
-$('queue').innerHTML=s.queue.map(q=>'<div class="patientrow"><div class="row"><b>'+q.name+' · '+q.triage+'</b><span class="muted">候診 '+q.wait+' 分</span></div><div class="muted">'+q.complaint+'</div></div>').join('')||'<div class="muted">候診區目前無等待病人。</div>';$('census').textContent='候診 '+s.queue.length;$('roster').textContent='本週'+shifts[s.shift]+'；下週'+shifts[(s.shift+1)%3]+'，再下週夜班。非當班由其他醫師接手。';}
-function drawLog(){$('feed').innerHTML=s.log.map(x=>'<div class="log"><time>'+x.t+'</time>'+x.msg+'</div>').join('')||'<div class="muted">尚無通報紀錄。</div>'}
-document.querySelectorAll('[data-station]').forEach(b=>b.onclick=()=>{s.station=b.dataset.station;render()});
-$('pause').onclick=()=>{if(!s.started){s.started=true;s.run=true;log('完成交班，開始'+shifts[s.shift]+'。');spawn();autoAssign();say('交班完成。系統開始派診，請留意通報。')}else s.run=!s.run;render()};
-$('speed').onclick=()=>{s.speed=s.speed===1?3:s.speed===3?6:1;render()};
-$('swap').onclick=()=>{s.shift=(s.shift+1)%3;log('班表調整為'+shifts[s.shift]+'。');render()};
-$('leave').onclick=()=>{s.leave=!s.leave;if(s.leave){if(s.patient){s.queue.unshift(s.patient);s.patient=null}log('請假生效，病人已交由其他醫師接手。')}else log('已復班。');render()};
-function tick(){if(!s.run||!s.started)return;s.min+=s.speed;s.tick++;s.queue.forEach(p=>p.wait+=s.speed);if(s.patient)s.patient.wait+=s.speed;if(s.min>=1440){s.min-=1440;s.day++;if((s.day-1)%7===0){s.week++;s.shift=(s.shift+1)%3;s.leave=false;log('新的一週開始，輪班更新為'+shifts[s.shift]+'。')}}if(s.tick%8===0)spawn();if(s.patient&&s.tick%5===0)event('護理師','護理師通報',s.patient.name+'仍有不適，請確認目前狀況。',['立即回應','稍後處理'],s.patient.triage==='緊急');if(s.patient&&s.tick%11===0)event('檢查','檢查結果回報',s.patient.name+'的檢查結果已回報。',['查看結果','稍後查看']);if(s.patient&&s.tick%15===0)event('急呼','床邊急呼',s.patient.name+'狀況有變，護理師請你立即到床邊。',['立即前往','稍後再看'],true);if(!s.patient)autoAssign();render()}
-document.querySelectorAll('[data-station]').forEach(b=>b.classList.toggle('on',b.dataset.station===s.station));setInterval(tick,1400);render();
+(()=>{const $=id=>document.getElementById(id);const labels={bed:'處置床',monitor:'監視器',desk:'護理站',phone:'電話',door:'出口'};const days=['週一','週二','週三','週四','週五','週六','週日'];let g={started:false,run:false,paused:false,min:480,day:1,week:1,shift:0,speed:1,player:{x:47,y:58},patient:null,queue:[],events:[],logs:[],step:0,tick:0,done:0,focus:'bed',overlay:false,leave:false};
+const cases=[{name:'陳先生',age:58,complaint:'胸悶、呼吸急促',triage:'緊急',v:['HR 116','BP 146/92','SpO₂ 92%'],tasks:['床邊評估','查看檢查回報','確認照護計畫','完成病歷與交班'],notes:['病人主訴胸悶、呼吸急促，護理師等候你到床邊。','心電圖回報已送達，護理師提醒你查看。','護理師通報病人冒冷汗，請重新確認狀況。','整理病歷與後續安排，交由接班團隊。']},{name:'林小姐',age:34,complaint:'腹痛、噁心',triage:'一般',v:['HR 94','BP 128/82','SpO₂ 98%'],tasks:['問診與初評','查看抽血結果','重新評估疼痛','完成病歷與交班'],notes:['病人腹痛、噁心，護理師詢問是否安排檢查。','抽血結果已回報。','病人表示疼痛位置改變。','確認後續安排並完成交班。']},{name:'王先生',age:67,complaint:'發燒、咳嗽',triage:'優先',v:['HR 108','BP 132/84','SpO₂ 94%'],tasks:['評估呼吸狀況','查看檢查回報','更新照護計畫','完成病歷與交班'],notes:['病人畏寒、咳嗽，血氧偏低。','胸部影像與抽血結果已回報。','病人仍感到喘，護理師請你重新評估。','確認後續觀察與去向。']}];
+function time(){return days[(g.day-1)%7]+' '+String(Math.floor(g.min/60)%24).padStart(2,'0')+':'+String(g.min%60).padStart(2,'0')}
+function log(m){g.logs.unshift({t:time(),m});g.logs=g.logs.slice(0,12);drawLogs()}
+function say(m){$('toast').textContent=m;$('toast').classList.add('show');clearTimeout(say.timer);say.timer=setTimeout(()=>$('toast').classList.remove('show'),2200)}
+function openDialog(tag,title,text,choices){g.overlay=true;$('dialogTag').textContent=tag;$('dialogTitle').textContent=title;$('dialogText').textContent=text;$('dialogActions').innerHTML='';choices.forEach(([label,fn])=>{let b=document.createElement('button');b.textContent=label;b.onclick=()=>{g.overlay=false;$('overlay').classList.remove('show');fn();render()};$('dialogActions').appendChild(b)});$('overlay').classList.add('show')}
+function spawn(){let c=cases[(g.done+g.queue.length+g.tick)%cases.length];g.queue.push({...c,id:g.done+g.queue.length+1,step:0,wait:0});g.queue.sort((a,b)=>({緊急:0,優先:1,一般:2}[a.triage]-({緊急:0,優先:1,一般:2}[b.triage])));log('新病人到院：'+c.name+'，已由系統分流。');if(!g.patient)assign();else call('護理師通報',c.name+'已到候診區，請留意分流。')}
+function assign(){if(!g.patient&&g.queue.length&&!g.leave){g.patient=g.queue.shift();g.patient.wait=0;g.step=0;log('系統派診：'+g.patient.name+'安排至處置床。');say('系統派診：'+g.patient.name+'已安排至處置床。')}}
+function call(title,text){g.events.push({title,text});log(title+'：'+text);openDialog('來電／護理師',title,text,[['我馬上過去',()=>{g.focus='bed';moveTo('bed');say('你已回應通報。');}],['先處理手邊工作',()=>{if(g.patient)g.patient.wait+=12;log('你延後回應通報。')} ]])}
+function currentTask(){return g.patient?g.patient.tasks[Math.min(g.step,3)]:'目前沒有當前病人'}
+function interact(place){if(!g.started){say('先按「開始值班」完成交班。');return}if(g.overlay)return;g.focus=place;if(place==='bed'){if(!g.patient){say('床邊目前沒有病人。');return}const p=g.patient;const actions=[['完成床邊評估',()=>work('assess')],['查看病人目前狀況',()=>work('recheck')],['稍後再處理',()=>{p.wait+=8;log('你暫時離開床邊。')}]];openDialog('床邊 · ER-01',p.name+'｜'+p.complaint+'。'+p.notes[Math.min(g.step,3)],actions)}
+else if(place==='monitor'){openDialog('生命徵象監視器','目前監測：'+(g.patient?g.patient.v.join(' · '):'目前無床邊病人'),[['確認監測',()=>{log('你確認了監視器讀數。');say('監測資料已確認。')}],['返回',()=>{}]])}
+else if(place==='desk'){openDialog('護理站 · 工作單',g.patient?'目前待辦：'+currentTask()+'。病歷進度 '+g.step+'/4。':'目前無當前病人。候診 '+g.queue.length+' 人。',g.patient?[['查看檢查回報',()=>work('result')],['更新照護計畫',()=>work('plan')],['整理病歷並交班',()=>work('handoff')]]:[['查看候診清單',()=>say('候診：'+g.queue.map(p=>p.name+'（'+p.triage+'）').join('、'))]])}
+else if(place==='phone'){if(g.events.length){let e=g.events[0];openDialog('電話來電',e.title+'：'+e.text,[['立即回應',()=>{g.events.shift();if(g.patient)g.patient.wait=Math.max(0,g.patient.wait-5);log('你接起電話並回應。')}],['稍後回電',()=>{if(g.patient)g.patient.wait+=10;log('你將電話延後回應。')}]]);}else say('電話暫時沒有響。')}
+else if(place==='door'){openDialog('離開床邊','要先離開處置床區嗎？未完成的病人工作會保留。',[['離開床邊',()=>{g.focus='door';say('你離開床邊，仍可回到現場。')}],['留在現場',()=>{}]])}}
+function work(kind){let p=g.patient;if(!p){say('目前沒有病人。');return}if(kind==='assess'||kind==='recheck'){if(g.step===0){g.step=1;log('完成床邊評估：'+p.name+'。');say('初步評估完成。下一步查看檢查回報。')}else{p.wait=Math.max(0,p.wait-3);log('重新確認'+p.name+'的狀況。');say('已重新確認病人狀況。')}}
+if(kind==='result'){if(g.step<1){say('先完成床邊評估。');return}g.step=2;log('查看檢查回報：'+p.name+'。');say('檢查回報已確認。')}
+if(kind==='plan'){if(g.step<2){say('先完成評估並查看檢查回報。');return}g.step=3;log('更新照護計畫並通知護理師。');say('照護計畫已更新。')}
+if(kind==='handoff'){if(g.step<3){say('尚有工作未完成：'+currentTask());return}log('完成病歷與交班：'+p.name+'由接班團隊接手。');g.patient=null;g.done++;g.step=0;assign();say('交班完成。')}
+render()}
+function moveTo(place){let coords={bed:[29,52],monitor:[76,52],desk:[70,75],phone:[90,31],door:[7,75]};let c=coords[place];g.player.x=c[0];g.player.y=c[1];$('player').style.left=c[0]+'%';$('player').style.top=c[1]+'%';g.focus=place;render()}
+function move(dx,dy){if(!g.started||g.overlay)return;g.player.x=Math.max(3,Math.min(94,g.player.x+dx));g.player.y=Math.max(28,Math.min(84,g.player.y+dy));$('player').style.left=g.player.x+'%';$('player').style.top=g.player.y+'%'}
+function nearest(){let coords={bed:[29,52],monitor:[76,52],desk:[70,75],phone:[90,31],door:[7,75]},best=null,dist=999;for(let [k,c] of Object.entries(coords)){let d=Math.hypot(g.player.x-c[0],g.player.y-c[1]);if(d<dist){best=k;dist=d}}return dist<20?best:null}
+function render(){ $('clock').textContent='第 '+g.week+' 週｜'+time();$('shift').textContent=['早班','晚班','夜班'][g.shift];$('duty').textContent=!g.started?'交班中':g.leave?'請假中':g.run?'值班中':'時間暫停';$('start').hidden=g.started;$('pause').hidden=!g.started;$('pause').textContent=g.run?'暫停':'繼續';$('speed').textContent='×'+g.speed;$('bedlabel').textContent=g.patient?'處置床 ER-01 · '+g.patient.triage:'處置床 ER-01 · 空床';$('sideTitle').textContent=g.patient?'當前病人':'候診區';$('case').innerHTML=g.patient?'<h3 class="case-title">'+g.patient.name+'｜'+g.patient.age+'歲</h3><p class="case-copy">'+g.patient.complaint+' · 分流 '+g.patient.triage+'</p><div class="case-metrics">'+g.patient.v.map(v=>'<span class="metric">'+v+'</span>').join('')+'</div><p class="case-copy">目前工作：'+currentTask()+'</p><div class="case-copy">流程 '+g.step+'/4 · 等待 '+g.patient.wait+' 分鐘</div>':'<p class="case-copy">目前無當前病人。候診 '+g.queue.length+' 人；系統會依分流自動派診。</p>';$('logs').innerHTML=g.logs.map(x=>'<div class="log"><time>'+x.t+'</time>'+x.m+'</div>').join('')||'<div class="case-copy">尚無紀錄。</div>';let n=nearest();$('hintline').textContent=n?'按 E 互動：'+labels[n]+'　·　你也可以直接點選場景物件':'走到病床、電話或護理站附近，按 E 互動';document.querySelectorAll('[data-place]').forEach(el=>el.style.filter=el.dataset.place===g.focus?'drop-shadow(0 0 5px #e3c985)':'none')}
+function drawLogs(){render()}
+document.querySelectorAll('[data-place]').forEach(el=>{el.addEventListener('click',()=>{moveTo(el.dataset.place);interact(el.dataset.place)});el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();moveTo(el.dataset.place);interact(el.dataset.place)}})});
+$('start').onclick=()=>{g.started=true;g.run=true;log('完成交班，開始值班。');spawn();render()};$('pause').onclick=()=>{g.run=!g.run;render()};$('speed').onclick=()=>{g.speed=g.speed===1?3:g.speed===3?6:1;render()};$('handoff').onclick=()=>openDialog('交班','確認結束當前班次？未完成病人會交由接班團隊接手。',[['完成交班',()=>{g.patient=null;g.run=false;g.started=false;g.done=0;log('班次交接完成。');say('已完成交班。')}],['繼續值班',()=>{}]]);$('leave').onclick=()=>{g.leave=!g.leave;if(g.leave&&g.patient){g.queue.unshift(g.patient);g.patient=null;log('你請假離開，病人由其他醫師接手。')}else log(g.leave?'你暫時離開值班。':'你返回值班現場。');render()};
+document.addEventListener('keydown',e=>{if(g.overlay){if(e.key==='Escape'){$('overlay').classList.remove('show');g.overlay=false}return}if(e.key==='Escape'){say('你離開了互動。');return}if(e.key.toLowerCase()==='m'){$('stage').classList.toggle('wide');return}if(e.key.toLowerCase()==='p'){if(g.started){g.run=!g.run;render()}return}let k=e.key.toLowerCase();if(k==='w'||e.key==='ArrowUp')move(0,-3);else if(k==='s'||e.key==='ArrowDown')move(0,3);else if(k==='a'||e.key==='ArrowLeft')move(-3,0);else if(k==='d'||e.key==='ArrowRight')move(3,0);else if(k==='e'){let n=nearest();if(n)interact(n);else say('靠近床邊、監視器、護理站或電話再按 E。')}});
+function tick(){if(!g.run||!g.started)return;g.min+=g.speed;g.tick++;if(g.patient)g.patient.wait+=g.speed;if(g.min>=1440){g.min-=1440;g.day++;if((g.day-1)%7===0){g.week++;g.shift=(g.shift+1)%3;log('新的一週，輪班更新為'+['早班','晚班','夜班'][g.shift]+'。')}}if(g.tick%10===0)spawn();if(g.patient&&g.tick%7===0)call('護理師再次來電',g.patient.name+'仍有不適，請你回到床邊確認。');render()}
+setInterval(tick,1800);render();
 })();
 </script></body></html>
